@@ -1,0 +1,132 @@
+"use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
+var fs = require("fs");
+var const_1 = require("../const");
+function getDirPath() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return path.join.apply(path, __spreadArrays([process.cwd()], args));
+}
+function getAssignDir(assign) {
+    try {
+        var all = fs.readdirSync(assign);
+        return all.length > 0 ? all : undefined;
+    }
+    catch (error) {
+        console.error("\u001B[31m%s\u001B[39m", '工作目录不存在，请设置', error);
+        return undefined;
+    }
+}
+exports.getAssignDir = getAssignDir;
+function hasDirExist(assign, exist) {
+    var dirPath = getDirPath(assign);
+    var all = getAssignDir(dirPath);
+    return all
+        ? all.some(function (it) { return hasDir(path.join(dirPath, it)) && it === exist; })
+        : false;
+}
+exports.hasDirExist = hasDirExist;
+function readMutilDirByAssignDir(assign, exist) {
+    var dirPath = getDirPath(assign, exist);
+    var all = getAssignDir(dirPath);
+    if (all && all.length > 0) {
+        var paths = all.filter(function (it) { return hasDir(path.join(dirPath, it)); });
+        var files = getEntryFileByAssignPath(paths, dirPath);
+        return files;
+    }
+    else {
+        return undefined;
+    }
+}
+exports.readMutilDirByAssignDir = readMutilDirByAssignDir;
+function readSingleDirByAssignDir(assign) {
+    var dirPath = getDirPath(assign);
+    var all = getAssignDir(dirPath);
+    return all && all.length > 0
+        ? getEntryFileBySingle(all, dirPath)
+        : undefined;
+}
+exports.readSingleDirByAssignDir = readSingleDirByAssignDir;
+function hasDir(path) {
+    try {
+        return fs.lstatSync(path).isDirectory();
+    }
+    catch (error) {
+        console.error("\u001B[31m%s\u001B[39m", '目录是否存在异常');
+        return false;
+    }
+}
+function getEntryFileByAssignPath(paths, assign) {
+    var result = [];
+    var _loop_1 = function (i, l) {
+        var ph = paths[i];
+        var dirPath = path.join(assign, ph);
+        var file = getAssignDir(dirPath);
+        if (file && file.length > 0) {
+            file.map(function (it) {
+                if (!hasDir(path.join(dirPath, it)) &&
+                    const_1.ENTRY_FILE_STAT.includes(it)) {
+                    result.push({
+                        file: it,
+                        path: path.join(dirPath, it),
+                        dir: ph,
+                        dirPath: dirPath,
+                        entry: ph
+                    });
+                }
+            });
+        }
+    };
+    for (var i = 0, l = paths.length; i < l; i++) {
+        _loop_1(i, l);
+    }
+    for (var index = 0, l = result.length; index < l; index++) {
+        var cur = result[index];
+        var next = result[index + 1] || '';
+        if (next) {
+            if (cur.dir === next.dir) {
+                console.error("\u001B[31m%s\u001B[39m", cur.dir + "\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6");
+                process.exit(0);
+                return undefined;
+            }
+        }
+    }
+    return result;
+}
+function getEntryFileBySingle(paths, assign) {
+    var result = [];
+    for (var i = 0, l = paths.length; i < l; i++) {
+        var ph = paths[i];
+        var filePath = path.join(assign, ph);
+        var isDir = hasDir(filePath);
+        if (!isDir && const_1.ENTRY_FILE_STAT.includes(ph)) {
+            result.push({
+                file: ph,
+                path: filePath,
+                dir: '',
+                dirPath: '',
+                entry: 'app'
+            });
+        }
+    }
+    if (result.length > 1) {
+        var logName = result
+            .map(function (it) { return it.file; })
+            .join(',');
+        console.error("\u001B[31m%s\u001B[39m", "\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6\uFF0C\u5F53\u524D\u68C0\u67E5\u5230" + logName);
+        process.exit(0);
+        return undefined;
+    }
+    return result;
+}
+//# sourceMappingURL=read.js.map

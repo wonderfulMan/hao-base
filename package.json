@@ -1,0 +1,31 @@
+{
+  "name": "hao-base",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "repository": "https://github.com/wonderfulMan/hao-base.git",
+  "author": "wonderfulMan <1259243840@qq.com>",
+  "license": "MIT",
+  "bin": {
+    "Hbase": "./bin/shell.js"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.11",
+    "nodemon": "^1.19.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.3"
+  },
+  "scripts": {
+    "start:dev": "$(npm bin)/ts-node ./src/index.ts",
+    "build": "$(npm bin)/tsc -w"
+  },
+  "dependencies": {
+    "@types/mini-css-extract-plugin": "^0.8.0",
+    "@types/webpack": "^4.39.3",
+    "css-loader": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^1.0.0",
+    "webpack": "^4.41.0",
+    "webpack-chain": "^6.0.0"
+  }
+}
