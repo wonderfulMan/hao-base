@@ -1,0 +1,1 @@
+{"version":3,"file":"transformOutputToConfig.js","sourceRoot":"","sources":["../../../src/core/transform/transformOutputToConfig.ts"],"names":[],"mappings":";;AACA,0CAAwC;AAKxC,SAAgB,uBAAuB,CAAC,MAA6B;IACnE,MAAM,CAAC,MAAM,GAAG;QACd,IAAI,EAAE,cAAQ,CAAC,aAAa;QAC5B,QAAQ,EAAE,UAAC,OAAO;YAEhB,OAAO,4BAA4B,CAAA;QACrC,CAAC;KACF,CAAA;AACH,CAAC;AARD,0DAQC"}

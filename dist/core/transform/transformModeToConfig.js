@@ -36,29 +36,21 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var entry_1 = require("./set/entry");
-var transform_1 = require("./transform");
-var compiler_1 = require("./compiler");
-function core(config) {
+var shell_1 = require("../../helper/shell");
+function transformModeToConfig(config) {
     return __awaiter(this, void 0, void 0, function () {
-        var entry, webpackConfig, shellArgs;
+        var args, value;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    entry = entry_1.getEntry(config);
-                    webpackConfig = {};
-                    return [4, transform_1.transformModeToConfig(webpackConfig)];
+                case 0: return [4, shell_1.getShellArgs()];
                 case 1:
-                    shellArgs = _a.sent();
-                    transform_1.transformEntryToConfig(webpackConfig, entry);
-                    transform_1.transformOutputToConfig(webpackConfig);
-                    transform_1.transformPluginsToConfig(webpackConfig, config, shellArgs);
-                    transform_1.transformRulesToConfig(webpackConfig);
-                    compiler_1.compiler(webpackConfig);
-                    return [2];
+                    args = _a.sent();
+                    value = args.mode === "build" ? 'production' : 'development';
+                    config.mode = value;
+                    return [2, args];
             }
         });
     });
 }
-exports.default = core;
-//# sourceMappingURL=index.js.map
+exports.transformModeToConfig = transformModeToConfig;
+//# sourceMappingURL=transformModeToConfig.js.map
