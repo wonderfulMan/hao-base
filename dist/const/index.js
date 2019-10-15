@@ -28,4 +28,3 @@ exports.REG_TEST = {
     },
     vueReg: /\.vue$/
 };
-//# sourceMappingURL=index.js.map

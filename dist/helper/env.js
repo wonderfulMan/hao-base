@@ -8,4 +8,3 @@ function setEnvironmentVars(envObject) {
     }
     return new webpack.DefinePlugin(defineObj);
 }
-//# sourceMappingURL=env.js.map

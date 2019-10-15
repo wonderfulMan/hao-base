@@ -25,4 +25,3 @@ function getEntry(config) {
         ? mutil(config) : single(config));
 }
 exports.getEntry = getEntry;
-//# sourceMappingURL=entry.js.map

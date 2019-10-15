@@ -55,8 +55,8 @@ function checkOptions(config) {
                         return [2, '请设置工作目录'];
                     }
                     isPlain = isPlainObject(config.globalVars);
-                    if (!isPlain) {
-                        return [2, 'env选项必须为一个简单对象'];
+                    if (config.globalVars && !isPlain) {
+                        return [2, 'globalVars选项必须为一个简单对象'];
                     }
                     return [2];
             }
@@ -85,4 +85,3 @@ function getObjectSize(obj) {
     return count;
 }
 exports.getObjectSize = getObjectSize;
-//# sourceMappingURL=check.js.map

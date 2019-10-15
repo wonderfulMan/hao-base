@@ -10,10 +10,29 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var webpack = require("webpack");
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
+var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var check_1 = require("../../helper/check");
+var plugins_1 = require("../../helper/plugins");
 function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
     var defineMap = { 'process.env': { NODE_ENV: JSON.stringify(webpackConfig.mode) } };
     var curEnv = shellArgs.curEnv;
@@ -23,22 +42,43 @@ function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
         var ret = Object
             .entries(customGlobalVars)
             .filter(function (_a) {
-            var key = _a[0], value = _a[1];
+            var _b = __read(_a, 2), key = _b[0], value = _b[1];
             if (key === curEnv)
                 return value;
         })[0];
         if (ret) {
-            var _ = ret[0], value = ret[1];
+            var _a = __read(ret, 2), _ = _a[0], value = _a[1];
             defineMap['process.env'] = __assign(__assign({}, defineMap['process.env']), value);
         }
     }
     return new webpack.DefinePlugin(defineMap);
 }
 exports.setGlobalVarsToContext = setGlobalVarsToContext;
-function setCleanDirByBuild(webpackConfig, customConfig, shellArgs) {
-    if (shellArgs.mode === 'build') {
-        return new clean_webpack_plugin_1.CleanWebpackPlugin();
+function setOptimizePlugins(webpackConfig, customConfig) {
+    var optimizePlugins = [];
+    var ignoreFileRegs = [];
+    var friendlyOptions = plugins_1.setConsoleMessageByMode(webpackConfig);
+    if (customConfig.useCssType) {
+        ignoreFileRegs.push(/css\.d\.ts$/, /less\.d\.ts$/, /scss\.d\.ts$/);
+        optimizePlugins.push(new webpack.WatchIgnorePlugin(ignoreFileRegs));
     }
+    optimizePlugins.push(new FriendlyErrorsWebpackPlugin(friendlyOptions));
+    if (webpackConfig.mode === 'production') {
+        optimizePlugins.push(new clean_webpack_plugin_1.CleanWebpackPlugin({
+            verbose: true
+        }));
+    }
+    return optimizePlugins;
 }
-exports.setCleanDirByBuild = setCleanDirByBuild;
-//# sourceMappingURL=plugins.js.map
+exports.setOptimizePlugins = setOptimizePlugins;
+function setStylesPlugins(webpackConfig, customConfig) {
+    var stylesPlugins = [];
+    if (webpackConfig.mode === 'production') {
+    }
+    stylesPlugins.push(new MiniCssExtractPlugin({
+        filename: webpackConfig.mode === 'development' ? 'css/[name].css' : 'css/[name].[chunkhash:8].css',
+        chunkFilename: webpackConfig.mode === 'development' ? 'css/[id].chunk.css' : 'css/[id].[chunkhash:8].css',
+    }));
+    return stylesPlugins;
+}
+exports.setStylesPlugins = setStylesPlugins;

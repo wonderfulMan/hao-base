@@ -53,7 +53,7 @@ function core(config) {
                     transform_1.transformEntryToConfig(webpackConfig, entry);
                     transform_1.transformOutputToConfig(webpackConfig);
                     transform_1.transformPluginsToConfig(webpackConfig, config, shellArgs);
-                    transform_1.transformRulesToConfig(webpackConfig);
+                    transform_1.transformModulesToConfig(webpackConfig, config);
                     compiler_1.compiler(webpackConfig);
                     return [2];
             }
@@ -61,4 +61,3 @@ function core(config) {
     });
 }
 exports.default = core;
-//# sourceMappingURL=index.js.map

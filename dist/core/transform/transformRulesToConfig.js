@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var rules_1 = require("../set/rules");
-function transformRulesToConfig(config) {
-    rules_1.getStyleRules(config);
+function transformModulesToConfig(webpackConfig) {
+    rules_1.getStyleRules(webpackConfig);
 }
-exports.transformRulesToConfig = transformRulesToConfig;
-//# sourceMappingURL=transformRulesToConfig.js.map
+exports.transformModulesToConfig = transformModulesToConfig;

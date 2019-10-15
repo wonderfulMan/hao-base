@@ -53,4 +53,3 @@ function transformModeToConfig(config) {
     });
 }
 exports.transformModeToConfig = transformModeToConfig;
-//# sourceMappingURL=transformModeToConfig.js.map

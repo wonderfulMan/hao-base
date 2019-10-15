@@ -10,4 +10,3 @@ function transformEntryToConfig(config, entries) {
     }
 }
 exports.transformEntryToConfig = transformEntryToConfig;
-//# sourceMappingURL=transformEntryToConfig.js.map

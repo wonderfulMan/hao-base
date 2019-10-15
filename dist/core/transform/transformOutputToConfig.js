@@ -10,4 +10,3 @@ function transformOutputToConfig(config) {
     };
 }
 exports.transformOutputToConfig = transformOutputToConfig;
-//# sourceMappingURL=transformOutputToConfig.js.map

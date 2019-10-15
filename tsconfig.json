@@ -5,9 +5,10 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "./dist",
     "strict":true,
+    "downlevelIteration": true
   },
   "exclude": ["node_modules", "dist"]
 }

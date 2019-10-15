@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("./core");
 var check_1 = require("./helper/check");
-function compilerConfig(config) {
+function parseConfig(config) {
     return __awaiter(this, void 0, void 0, function () {
         var errorMessage;
         return __generator(this, function (_a) {
@@ -57,5 +57,4 @@ function compilerConfig(config) {
         });
     });
 }
-exports.default = compilerConfig;
-//# sourceMappingURL=index.js.map
+exports.default = parseConfig;

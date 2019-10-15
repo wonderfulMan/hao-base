@@ -20,13 +20,12 @@ var __spread = (this && this.__spread) || function () {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var plugins_1 = require("../set/plugins");
-function transformPluginsToConfig(webpackConfig, customConfig, shellArgs) {
-    var plugins = [];
-    var definevVarsPlugin = plugins_1.setGlobalVarsToContext(webpackConfig, customConfig, shellArgs);
-    var optimizePlugins = plugins_1.setOptimizePlugins(webpackConfig, customConfig);
-    var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig);
-    plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins));
-    webpackConfig.plugins = plugins;
+var loader_1 = require("../set/loader");
+function transformModulesToConfig(webpackConfig, customConfig) {
+    var rules = [];
+    var commonJavascriptRule = loader_1.getCommonJavascriptRule(webpackConfig);
+    var styleRule = loader_1.getStyleRules(webpackConfig, customConfig);
+    rules.push({ oneOf: __spread([commonJavascriptRule], styleRule) });
+    webpackConfig.module = { rules: rules };
 }
-exports.transformPluginsToConfig = transformPluginsToConfig;
+exports.transformModulesToConfig = transformModulesToConfig;
