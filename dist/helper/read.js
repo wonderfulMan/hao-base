@@ -23,6 +23,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var fs = require("fs");
 var const_1 = require("../const");
+var check_1 = require("../helper/check");
 function getDirPath() {
     var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
@@ -36,7 +37,7 @@ function getAssignDir(assign) {
         return all.length > 0 ? all : undefined;
     }
     catch (error) {
-        console.error("\u001B[31m%s\u001B[39m", '工作目录不存在，请设置', error);
+        check_1.errorMessageExit(['工作目录不存在，请设置', error]);
         return undefined;
     }
 }
@@ -65,9 +66,14 @@ exports.readMutilDirByAssignDir = readMutilDirByAssignDir;
 function readSingleDirByAssignDir(assign) {
     var dirPath = getDirPath(assign);
     var all = getAssignDir(dirPath);
-    return all && all.length > 0
-        ? getEntryFileBySingle(all, dirPath)
-        : undefined;
+    if (all && all.length) {
+        var ret = getEntryFileBySingle(all, dirPath);
+        ret && !ret.length && check_1.errorMessageExit(assign + "\u76EE\u5F55\u4E0B\u6CA1\u6709\u627E\u5230\u5165\u53E3\u6587\u4EF6\u8BF7\u68C0\u67E5\uFF08index.js/index.jsx/index.ts/index.tsx\uFF09");
+        return ret;
+    }
+    else {
+        check_1.errorMessageExit(assign + "\u76EE\u5F55\u4E0B\u6CA1\u6709\u627E\u5230\u5165\u53E3\u6587\u4EF6\u8BF7\u68C0\u67E5\uFF08index.js/index.jsx/index.ts/index.tsx\uFF09");
+    }
 }
 exports.readSingleDirByAssignDir = readSingleDirByAssignDir;
 function hasDir(path) {
@@ -75,42 +81,40 @@ function hasDir(path) {
         return fs.lstatSync(path).isDirectory();
     }
     catch (error) {
-        console.error("\u001B[31m%s\u001B[39m", '目录是否存在异常');
+        check_1.errorMessageExit('目录是否存在异常');
         return false;
     }
 }
 function getEntryFileByAssignPath(paths, assign) {
     var result = [];
-    var _loop_1 = function (i, l) {
+    for (var i = 0, l = paths.length; i < l; i++) {
         var ph = paths[i];
         var dirPath = path.join(assign, ph);
         var file = getAssignDir(dirPath);
         if (file && file.length > 0) {
-            file.map(function (it) {
-                if (!hasDir(path.join(dirPath, it)) &&
-                    const_1.ENTRY_FILE_STAT.includes(it)) {
-                    result.push({
-                        file: it,
-                        path: path.join(dirPath, it),
-                        dir: ph,
-                        dirPath: dirPath,
-                        entry: ph
-                    });
-                }
+            var ret = file.filter(function (it) { return const_1.ENTRY_FILE_STAT.includes(it); })[0];
+            if (!ret)
+                check_1.errorMessageExit(ph + "\u76EE\u5F55\u4E0B\u6CA1\u6709\u627E\u5230\u5165\u53E3\u6587\u4EF6\u8BF7\u68C0\u67E5\uFF08index.js/index.jsx/index.ts/index.tsx\uFF09");
+            result.push({
+                file: ret,
+                path: path.join(dirPath, ret),
+                dir: ph,
+                dirPath: dirPath,
+                entry: ph
             });
         }
-    };
-    for (var i = 0, l = paths.length; i < l; i++) {
-        _loop_1(i, l);
+        else {
+            console.error("\u001B[31m%s\u001B[39m", ph + "\u76EE\u5F55\u4E0B\u6CA1\u6709\u5165\u53E3\u6587\u4EF6");
+            process.exit(0);
+            return undefined;
+        }
     }
     for (var index = 0, l = result.length; index < l; index++) {
         var cur = result[index];
         var next = result[index + 1] || '';
         if (next) {
             if (cur.dir === next.dir) {
-                console.error("\u001B[31m%s\u001B[39m", cur.dir + "\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6");
-                process.exit(0);
-                return undefined;
+                check_1.errorMessageExit(cur.dir + "\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6");
             }
         }
     }
@@ -136,9 +140,7 @@ function getEntryFileBySingle(paths, assign) {
         var logName = result
             .map(function (it) { return it.file; })
             .join(',');
-        console.error("\u001B[31m%s\u001B[39m", "\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6\uFF0C\u5F53\u524D\u68C0\u67E5\u5230" + logName);
-        process.exit(0);
-        return undefined;
+        check_1.errorMessageExit("\u76EE\u5F55\u4E0B\u53EA\u80FD\u6709\u4E00\u4E2A\u5165\u53E3\u6587\u4EF6\uFF0C\u5F53\u524D\u68C0\u67E5\u5230" + logName);
     }
     return result;
 }

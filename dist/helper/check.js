@@ -85,3 +85,10 @@ function getObjectSize(obj) {
     return count;
 }
 exports.getObjectSize = getObjectSize;
+function errorMessageExit(message, color) {
+    if (color === void 0) { color = "\u001B[31m%s\u001B[39m"; }
+    console.error(color, Array.isArray(message) ? message.map(function (it) { return it; }) : message);
+    process.exit(0);
+    return undefined;
+}
+exports.errorMessageExit = errorMessageExit;

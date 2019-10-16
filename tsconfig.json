@@ -2,13 +2,17 @@
   "compilerOptions": {
     "module": "commonjs",
     "removeComments": true,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
     "sourceMap": false,
     "outDir": "./dist",
     "strict":true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "typeRoots": [
+      "@types"
+    ]
   },
   "exclude": ["node_modules", "dist"]
 }

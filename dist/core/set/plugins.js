@@ -27,12 +27,16 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
 var webpack = require("webpack");
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
+var OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
+var path_1 = require("../../helper/path");
 function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
     var defineMap = { 'process.env': { NODE_ENV: JSON.stringify(webpackConfig.mode) } };
     var curEnv = shellArgs.curEnv;
@@ -67,6 +71,17 @@ function setOptimizePlugins(webpackConfig, customConfig) {
         optimizePlugins.push(new clean_webpack_plugin_1.CleanWebpackPlugin({
             verbose: true
         }));
+        optimizePlugins.push(new hardSourceWebpackPlugin({
+            cacheDirectory: path.join(path_1.default.WORK_DIR_PATH(), '../node_modules/.cache/hard-source/[confighash]'),
+            configHash: function (webpackConfig) {
+                return require('node-object-hash')({ sort: false }).hash(webpackConfig);
+            },
+            environmentHash: {
+                root: process.cwd(),
+                directories: [],
+                files: ['package-lock.json', 'yarn.lock'],
+            },
+        }));
     }
     return optimizePlugins;
 }
@@ -74,6 +89,18 @@ exports.setOptimizePlugins = setOptimizePlugins;
 function setStylesPlugins(webpackConfig, customConfig) {
     var stylesPlugins = [];
     if (webpackConfig.mode === 'production') {
+        stylesPlugins.push(new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessorOptions: {
+                safe: true,
+                autoprefixer: { disable: true },
+                mergeLonghand: false,
+                discardComments: {
+                    removeAll: true
+                }
+            },
+            canPrint: true
+        }));
     }
     stylesPlugins.push(new MiniCssExtractPlugin({
         filename: webpackConfig.mode === 'development' ? 'css/[name].css' : 'css/[name].[chunkhash:8].css',
@@ -82,3 +109,6 @@ function setStylesPlugins(webpackConfig, customConfig) {
     return stylesPlugins;
 }
 exports.setStylesPlugins = setStylesPlugins;
+function setHtmlPluguns(webpackConfig, customConfig) {
+}
+exports.setHtmlPluguns = setHtmlPluguns;

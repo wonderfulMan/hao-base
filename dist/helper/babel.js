@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var babelConfig = {
+    "cacheDirectory": true,
+    "babelrc": false,
     "presets": [
         [
             require.resolve("@babel/preset-env"),

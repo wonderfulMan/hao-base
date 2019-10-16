@@ -31,22 +31,27 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType) {
     var options = {};
     var isProduction = webpackConfig.mode === 'production';
     beforeLoaders.push({
-        loader: 'postcss-loader',
+        loader: require.resolve('postcss-loader'),
+        options: {
+            plugins: function (loader) {
+                require('autoprefixer')();
+            }
+        }
     });
     if (styleType === 'scss') {
         beforeLoaders.push({
-            loader: 'sass-loader'
+            loader: require.resolve('sass-loader')
         });
     }
     if (styleType === 'less') {
         beforeLoaders.push({
-            loader: 'less-loader'
+            loader: require.resolve('less-loader')
         });
     }
     if (customConfig.styleResources &&
         customConfig.styleResources.length > 0) {
         beforeLoaders.push({
-            loader: 'sass-resource-loader',
+            loader: require.resolve('sass-resource-loader'),
             options: {
                 resources: customConfig.styleResources
                     .map(function (filePath) { return path.join(path_1.default.WORK_DIR_PATH(customConfig.workDir), filePath); })
@@ -58,9 +63,6 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType) {
         options.localIdentName = '[name]---[local]---[hash:base64:5]';
         options.camelCase = true;
     }
-    if (isProduction) {
-        options.minimize = true;
-    }
     if (customConfig.useCssType) {
         options.namedExport = true;
     }
@@ -70,9 +72,11 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType) {
     if (beforeLoaders.length > 0) {
         options.importLoaders = beforeLoaders.length;
     }
-    loaders.push.apply(loaders, __spread([isProduction ? miniCssExtractPlugin.loader : 'style-loader',
+    loaders.push.apply(loaders, __spread([{
+            loader: require.resolve(isProduction ? miniCssExtractPlugin.loader : 'style-loader')
+        },
         {
-            loader: customConfig.useCssType ? 'typings-for-css-modules-loader' : 'css-loader',
+            loader: require.resolve(customConfig.useCssType ? 'typings-for-css-modules-loader' : 'css-loader'),
             options: options
         }], beforeLoaders));
     return loaders;
