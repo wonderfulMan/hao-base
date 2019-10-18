@@ -21,12 +21,13 @@ var __spread = (this && this.__spread) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var plugins_1 = require("../set/plugins");
-function transformPluginsToConfig(webpackConfig, customConfig, shellArgs) {
+function transformPluginsToConfig(webpackConfig, customConfig, shellArgs, entry) {
     var plugins = [];
     var definevVarsPlugin = plugins_1.setGlobalVarsToContext(webpackConfig, customConfig, shellArgs);
     var optimizePlugins = plugins_1.setOptimizePlugins(webpackConfig, customConfig);
     var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig);
-    plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins));
+    var htmlPlugins = plugins_1.setHtmlPluguns(webpackConfig, customConfig, entry);
+    plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins, htmlPlugins));
     webpackConfig.plugins = plugins;
 }
 exports.transformPluginsToConfig = transformPluginsToConfig;

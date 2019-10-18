@@ -1,4 +1,5 @@
 export declare const ENTRY_FILE_STAT: string[];
+export declare const HTML_PLUGIN_TPL: string[];
 export declare const OUT_PUT_PATH = "dist";
 export declare const enum COLORS {
     bold = "\u001B[1m%s\u001B[22m",

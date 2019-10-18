@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ENTRY_FILE_STAT = ['index.js', 'index.ts', 'index.tsx', 'index.jsx'];
+exports.HTML_PLUGIN_TPL = ['index.html'];
 exports.OUT_PUT_PATH = 'dist';
 exports.REG_TEST = {
     styleReg: {

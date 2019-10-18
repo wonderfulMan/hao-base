@@ -34,6 +34,7 @@ var OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+var HtmlWebacpkPlugin = require("html-webpack-plugin");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
 var path_1 = require("../../helper/path");
@@ -109,6 +110,19 @@ function setStylesPlugins(webpackConfig, customConfig) {
     return stylesPlugins;
 }
 exports.setStylesPlugins = setStylesPlugins;
-function setHtmlPluguns(webpackConfig, customConfig) {
+function setHtmlPluguns(webpackConfig, customConfig, entries) {
+    var htmlPlugins = [];
+    if (!entries) {
+        check_1.errorMessageExit('没有找到入口文件');
+        return;
+    }
+    for (var i = 0, l = entries.length; i < l; i++) {
+        htmlPlugins.push(new HtmlWebacpkPlugin({
+            filename: entries[i].entry + "/index.html",
+            template: entries[i].template,
+            chunks: [entries[i].entry]
+        }));
+    }
+    return htmlPlugins;
 }
 exports.setHtmlPluguns = setHtmlPluguns;

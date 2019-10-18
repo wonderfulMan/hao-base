@@ -52,7 +52,7 @@ function core(config) {
                     shellArgs = _a.sent();
                     transform_1.transformEntryToConfig(webpackConfig, entry);
                     transform_1.transformOutputToConfig(webpackConfig);
-                    transform_1.transformPluginsToConfig(webpackConfig, config, shellArgs);
+                    transform_1.transformPluginsToConfig(webpackConfig, config, shellArgs, entry);
                     transform_1.transformModulesToConfig(webpackConfig, config);
                     compiler_1.compiler(webpackConfig);
                     return [2];

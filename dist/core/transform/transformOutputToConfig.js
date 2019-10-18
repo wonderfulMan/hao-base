@@ -5,7 +5,7 @@ function transformOutputToConfig(config) {
     config.output = {
         path: path_1.default.BUIL_DIR_PATH,
         filename: function (payload) {
-            return "js/[name].[contenthash].js";
+            return payload.chunk.name + "/js/[name].[contenthash].js";
         }
     };
 }
