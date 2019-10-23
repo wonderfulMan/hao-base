@@ -10,3 +10,5 @@ var transformModulesToConfig_1 = require("./transformModulesToConfig");
 exports.transformModulesToConfig = transformModulesToConfig_1.transformModulesToConfig;
 var transformPluginsToConfig_1 = require("./transformPluginsToConfig");
 exports.transformPluginsToConfig = transformPluginsToConfig_1.transformPluginsToConfig;
+var transformOptimizationToConfig_1 = require("./transformOptimizationToConfig");
+exports.transformOptimizationToConfig = transformOptimizationToConfig_1.transformOptimizationToConfig;

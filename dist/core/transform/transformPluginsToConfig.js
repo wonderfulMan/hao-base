@@ -25,7 +25,7 @@ function transformPluginsToConfig(webpackConfig, customConfig, shellArgs, entry)
     var plugins = [];
     var definevVarsPlugin = plugins_1.setGlobalVarsToContext(webpackConfig, customConfig, shellArgs);
     var optimizePlugins = plugins_1.setOptimizePlugins(webpackConfig, customConfig);
-    var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig);
+    var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig, entry);
     var htmlPlugins = plugins_1.setHtmlPluguns(webpackConfig, customConfig, entry);
     plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins, htmlPlugins));
     webpackConfig.plugins = plugins;

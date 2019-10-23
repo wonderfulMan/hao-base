@@ -30,11 +30,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var webpack = require("webpack");
 var clean_webpack_plugin_1 = require("clean-webpack-plugin");
-var OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var HtmlWebacpkPlugin = require("html-webpack-plugin");
+var PurifyCSS = require("purifycss-webpack");
+var glob = require("glob-all");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
 var path_1 = require("../../helper/path");
@@ -71,8 +72,7 @@ function setOptimizePlugins(webpackConfig, customConfig) {
     if (webpackConfig.mode === 'production') {
         optimizePlugins.push(new clean_webpack_plugin_1.CleanWebpackPlugin({
             verbose: true
-        }));
-        optimizePlugins.push(new hardSourceWebpackPlugin({
+        }), new hardSourceWebpackPlugin({
             cacheDirectory: path.join(path_1.default.WORK_DIR_PATH(), '../node_modules/.cache/hard-source/[confighash]'),
             configHash: function (webpackConfig) {
                 return require('node-object-hash')({ sort: false }).hash(webpackConfig);
@@ -87,25 +87,20 @@ function setOptimizePlugins(webpackConfig, customConfig) {
     return optimizePlugins;
 }
 exports.setOptimizePlugins = setOptimizePlugins;
-function setStylesPlugins(webpackConfig, customConfig) {
+function setStylesPlugins(webpackConfig, customConfig, entries) {
     var stylesPlugins = [];
-    if (webpackConfig.mode === 'production') {
-        stylesPlugins.push(new OptimizeCssAssetsPlugin({
-            assetNameRegExp: /\.css$/g,
-            cssProcessorOptions: {
-                safe: true,
-                autoprefixer: { disable: true },
-                mergeLonghand: false,
-                discardComments: {
-                    removeAll: true
-                }
-            },
-            canPrint: true
-        }));
+    if (!entries) {
+        check_1.errorMessageExit('没有找到入口文件');
     }
     stylesPlugins.push(new MiniCssExtractPlugin({
-        filename: webpackConfig.mode === 'development' ? 'css/[name].css' : 'css/[name].[chunkhash:8].css',
-        chunkFilename: webpackConfig.mode === 'development' ? 'css/[id].chunk.css' : 'css/[id].[chunkhash:8].css',
+        filename: webpackConfig.mode === 'development' ? '[name]/[name].css' : '[name]/[name]-[chunkhash:8].css',
+        chunkFilename: webpackConfig.mode === 'development' ? '[name]/[id].chunk.css' : '[name]/[id]-[chunkhash:8].css',
+    }), new PurifyCSS({
+        paths: glob.sync([
+            path.join(path_1.default.BUIL_DIR_PATH, '/*.html'),
+            path.join(path_1.default.BUIL_DIR_PATH, '/*.css'),
+            path.join(path_1.default.BUIL_DIR_PATH, '/*.js')
+        ])
     }));
     return stylesPlugins;
 }
@@ -120,7 +115,7 @@ function setHtmlPluguns(webpackConfig, customConfig, entries) {
         htmlPlugins.push(new HtmlWebacpkPlugin({
             filename: entries[i].entry + "/index.html",
             template: entries[i].template,
-            chunks: [entries[i].entry]
+            chunks: [entries[i].entry],
         }));
     }
     return htmlPlugins;
