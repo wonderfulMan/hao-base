@@ -1,21 +1,9 @@
-import { CssLoaderOptions, BaseConfig } from 'hao-base';
+import { BaseConfig } from 'hao-base';
 import * as webpack from 'webpack';
-export declare function getStyleLoaders(webpackConfig: webpack.Configuration, customConfig: BaseConfig, isModules?: boolean, styleType?: 'less' | 'scss' | 'css'): ({
+export declare function getStyleLoaders(webpackConfig: webpack.Configuration, customConfig: BaseConfig, isModules?: boolean, styleType?: 'less' | 'scss' | 'css', postcssConfig?: any): ({
     loader: string;
-    options: {
-        plugins: (loader: any) => void;
-        resources?: undefined;
-    };
+    options: any;
 } | {
     loader: string;
     options?: undefined;
-} | {
-    loader: string;
-    options: {
-        resources: string[];
-        plugins?: undefined;
-    };
-} | {
-    loader: string;
-    options: CssLoaderOptions;
 })[];

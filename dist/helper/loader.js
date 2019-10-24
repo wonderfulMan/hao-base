@@ -23,34 +23,45 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var miniCssExtractPlugin = require("mini-css-extract-plugin");
 var path_1 = require("../helper/path");
-function getStyleLoaders(webpackConfig, customConfig, isModules, styleType) {
+function getStyleLoaders(webpackConfig, customConfig, isModules, styleType, postcssConfig) {
     if (isModules === void 0) { isModules = false; }
     if (styleType === void 0) { styleType = 'css'; }
-    var loaders = [];
+    var afterLoaders = [];
     var beforeLoaders = [];
     var options = {};
     var isProduction = webpackConfig.mode === 'production';
-    beforeLoaders.push({
+    afterLoaders.push({
         loader: require.resolve('postcss-loader'),
         options: {
-            plugins: function (loader) {
-                require('autoprefixer')();
-            }
+            plugins: [
+                require('autoprefixer')()
+            ],
         }
     });
+    beforeLoaders.push({
+        loader: require.resolve(isProduction
+            ? miniCssExtractPlugin.loader
+            : (customConfig.frame === 'vue' ? 'vue-style-loader' : 'style-loader'))
+    });
+    if (postcssConfig) {
+        afterLoaders.push({
+            loader: require.resolve('postcss-loader'),
+            options: postcssConfig
+        });
+    }
     if (styleType === 'scss') {
-        beforeLoaders.push({
+        afterLoaders.push({
             loader: require.resolve('sass-loader')
         });
     }
     if (styleType === 'less') {
-        beforeLoaders.push({
+        afterLoaders.push({
             loader: require.resolve('less-loader')
         });
     }
     if (customConfig.styleResources &&
         customConfig.styleResources.length > 0) {
-        beforeLoaders.push({
+        afterLoaders.push({
             loader: require.resolve('sass-resource-loader'),
             options: {
                 resources: customConfig.styleResources
@@ -59,26 +70,32 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType) {
         });
     }
     if (isModules) {
-        options.modules = true;
-        options.localIdentName = '[name]---[local]---[hash:base64:5]';
-        options.camelCase = true;
-    }
-    if (customConfig.useCssType) {
-        options.namedExport = true;
+        options.modules = {
+            mode: 'local',
+            localIdentName: 'purify-[name]-[local]-[hash:base64:5]',
+            context: path_1.default.WORK_DIR_PATH(),
+            hashPrefix: 'hash'
+        };
+        options.localsConvention = 'camelCase';
     }
     if (customConfig.sourceMap) {
         options.sourceMap = true;
     }
-    if (beforeLoaders.length > 0) {
-        options.importLoaders = beforeLoaders.length;
+    if (afterLoaders.length > 0) {
+        options.importLoaders = afterLoaders.length;
     }
-    loaders.push.apply(loaders, __spread([{
-            loader: require.resolve(isProduction ? miniCssExtractPlugin.loader : 'style-loader')
-        },
-        {
-            loader: require.resolve(customConfig.useCssType ? 'typings-for-css-modules-loader' : 'css-loader'),
-            options: options
-        }], beforeLoaders));
-    return loaders;
+    if (customConfig.typescript) {
+        beforeLoaders.push({
+            loader: require.resolve('@teamsupercell/typings-for-css-modules-loader'),
+            options: {
+                formatter: "prettier"
+            }
+        });
+    }
+    beforeLoaders.push({
+        loader: require.resolve('css-loader'),
+        options: options
+    });
+    return __spread(beforeLoaders, afterLoaders);
 }
 exports.getStyleLoaders = getStyleLoaders;

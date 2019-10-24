@@ -32,6 +32,7 @@ function getDirPath() {
     }
     return path.join.apply(path, __spread([process.cwd()], args));
 }
+exports.getDirPath = getDirPath;
 function getAssignDir(assign) {
     try {
         var all = fs.readdirSync(assign);

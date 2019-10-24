@@ -7,6 +7,7 @@ function server(webpackConfig, customConfig) {
     var devServer = new WebpackDevServer(webpack(webpackConfig), {
         port: 8000,
         open: true,
+        hot: webpackConfig.mode === 'development',
         contentBase: path_1.default.BUIL_DIR_PATH,
     });
     devServer.listen(8000, 'localhost', function (error) {

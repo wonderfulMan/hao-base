@@ -34,11 +34,12 @@ var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var HtmlWebacpkPlugin = require("html-webpack-plugin");
-var PurifyCSS = require("purifycss-webpack");
+var PurgecssPlugin = require("purgecss-webpack-plugin");
 var glob = require("glob-all");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
 var path_1 = require("../../helper/path");
+var VueLoaderPlugin = require('vue-loader/lib/plugin');
 function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
     var defineMap = { 'process.env': { NODE_ENV: JSON.stringify(webpackConfig.mode) } };
     var curEnv = shellArgs.curEnv;
@@ -64,7 +65,7 @@ function setOptimizePlugins(webpackConfig, customConfig) {
     var optimizePlugins = [];
     var ignoreFileRegs = [];
     var friendlyOptions = plugins_1.setConsoleMessageByMode(webpackConfig);
-    if (customConfig.useCssType) {
+    if (customConfig.typescript) {
         ignoreFileRegs.push(/css\.d\.ts$/, /less\.d\.ts$/, /scss\.d\.ts$/);
         optimizePlugins.push(new webpack.WatchIgnorePlugin(ignoreFileRegs));
     }
@@ -82,7 +83,7 @@ function setOptimizePlugins(webpackConfig, customConfig) {
                 directories: [],
                 files: ['package-lock.json', 'yarn.lock'],
             },
-        }));
+        }), new webpack.HotModuleReplacementPlugin());
     }
     return optimizePlugins;
 }
@@ -92,20 +93,27 @@ function setStylesPlugins(webpackConfig, customConfig, entries) {
     if (!entries) {
         check_1.errorMessageExit('没有找到入口文件');
     }
+    var workPath = path_1.default.WORK_DIR_PATH();
     stylesPlugins.push(new MiniCssExtractPlugin({
         filename: webpackConfig.mode === 'development' ? '[name]/[name].css' : '[name]/[name]-[chunkhash:8].css',
         chunkFilename: webpackConfig.mode === 'development' ? '[name]/[id].chunk.css' : '[name]/[id]-[chunkhash:8].css',
-    }), new PurifyCSS({
-        paths: glob.sync([
-            path.join(path_1.default.BUIL_DIR_PATH, '/*.html'),
-            path.join(path_1.default.BUIL_DIR_PATH, '/*.css'),
-            path.join(path_1.default.BUIL_DIR_PATH, '/*.js')
-        ])
+    }), new PurgecssPlugin({
+        paths: function () { return glob.sync([
+            workPath + "/**/*.html",
+            workPath + "/**/*.css",
+            workPath + "/**/*.scss",
+            workPath + "/**/*.sass",
+            workPath + "/**/*.less",
+            workPath + "/**/*.js",
+        ], { nodir: true }); },
+        whitelistPatterns: function () {
+            return [/^purify-/];
+        }
     }));
     return stylesPlugins;
 }
 exports.setStylesPlugins = setStylesPlugins;
-function setHtmlPluguns(webpackConfig, customConfig, entries) {
+function setHtmlPlugins(webpackConfig, customConfig, entries) {
     var htmlPlugins = [];
     if (!entries) {
         check_1.errorMessageExit('没有找到入口文件');
@@ -115,9 +123,16 @@ function setHtmlPluguns(webpackConfig, customConfig, entries) {
         htmlPlugins.push(new HtmlWebacpkPlugin({
             filename: entries[i].entry + "/index.html",
             template: entries[i].template,
-            chunks: [entries[i].entry],
+            chunks: ['manifest', 'vue-vendor', 'react-vendor', 'other-vendor', entries[i].entry,],
+            chunksSortMode: 'manual'
         }));
     }
     return htmlPlugins;
 }
-exports.setHtmlPluguns = setHtmlPluguns;
+exports.setHtmlPlugins = setHtmlPlugins;
+function setVueLoaderPlugin(webpackConfig, customConfig) {
+    if (customConfig.frame === 'vue') {
+        return new VueLoaderPlugin();
+    }
+}
+exports.setVueLoaderPlugin = setVueLoaderPlugin;

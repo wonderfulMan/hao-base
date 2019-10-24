@@ -26,7 +26,9 @@ function transformPluginsToConfig(webpackConfig, customConfig, shellArgs, entry)
     var definevVarsPlugin = plugins_1.setGlobalVarsToContext(webpackConfig, customConfig, shellArgs);
     var optimizePlugins = plugins_1.setOptimizePlugins(webpackConfig, customConfig);
     var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig, entry);
-    var htmlPlugins = plugins_1.setHtmlPluguns(webpackConfig, customConfig, entry);
+    var htmlPlugins = plugins_1.setHtmlPlugins(webpackConfig, customConfig, entry);
+    var vueLoaderPlugin = plugins_1.setVueLoaderPlugin(webpackConfig, customConfig);
+    vueLoaderPlugin && plugins.push(vueLoaderPlugin);
     plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins, htmlPlugins));
     webpackConfig.plugins = plugins;
 }

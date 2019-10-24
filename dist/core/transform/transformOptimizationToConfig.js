@@ -43,7 +43,49 @@ function transformOptimizationToConfig(webpackConfig, customConfig) {
     webpackConfig.optimization = {
         usedExports: true,
         minimize: true,
-        minimizer: webpackConfig.mode === 'production' ? minimizePlugins : []
+        minimizer: webpackConfig.mode === 'production' ? minimizePlugins : [],
+        runtimeChunk: {
+            name: 'manifest'
+        },
+        namedModules: true,
+        namedChunks: true,
+        moduleIds: 'hashed',
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    chunks: "all",
+                    minChunks: 2,
+                    name: 'commons/commons',
+                    maxInitialRequests: 5,
+                },
+                vue: {
+                    test: function (module) {
+                        return /vue|vuex|vue-router/.test(module.context);
+                    },
+                    minChunks: 1,
+                    chunks: "all",
+                    name: 'vue-vendor',
+                    priority: -10,
+                    reuseExistingChunk: false
+                },
+                react: {
+                    test: function (module) {
+                        return /react|redux|react-router|react-dom|react-redux|scheduler/.test(module.context);
+                    },
+                    minChunks: 1,
+                    chunks: "all",
+                    name: 'react-vendor',
+                    priority: -20,
+                    reuseExistingChunk: false
+                },
+                otherVendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    chunks: "all",
+                    priority: -30,
+                    name: 'other-vendor',
+                }
+            }
+        }
     };
 }
 exports.transformOptimizationToConfig = transformOptimizationToConfig;

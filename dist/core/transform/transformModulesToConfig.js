@@ -23,8 +23,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var loader_1 = require("../set/loader");
 function transformModulesToConfig(webpackConfig, customConfig) {
     var rules = [];
-    var commonJavascriptRule = loader_1.getCommonJavascriptRule(webpackConfig);
+    var commonJavascriptRule = loader_1.getCommonJavascriptRule(webpackConfig, customConfig);
     var styleRule = loader_1.getStyleRules(webpackConfig, customConfig);
+    var vueRules = loader_1.getVueRules(webpackConfig, customConfig);
+    vueRules && rules.push(vueRules);
     rules.push({ oneOf: __spread([commonJavascriptRule], styleRule) });
     webpackConfig.module = { rules: rules };
 }

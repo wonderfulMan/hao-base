@@ -5,9 +5,9 @@ function transformOutputToConfig(config) {
     config.output = {
         path: path_1.default.BUIL_DIR_PATH,
         filename: function (webpack) {
-            var name = webpack.chunk.name;
-            return "[name]/" + name + "-[contenthash:8].bundle.js";
-        }
+            return "[name]/app-[contenthash:8].bundle.js";
+        },
+        chunkFilename: "[name]/[name]-chunk-[contenthash:8].bundle.js"
     };
 }
 exports.transformOutputToConfig = transformOutputToConfig;

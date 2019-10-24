@@ -1,6 +1,7 @@
-declare const babelConfig: {
+declare const generatorBabelConfig: (frame: "vue" | "react" | undefined) => {
     "cacheDirectory": boolean;
     "babelrc": boolean;
+    "extends": string | undefined;
     "presets": (string | {
         "useBuiltIns": string;
         "modules": boolean;
@@ -8,4 +9,4 @@ declare const babelConfig: {
     })[][];
     "plugins": string[];
 };
-export default babelConfig;
+export default generatorBabelConfig;
