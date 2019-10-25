@@ -51,7 +51,7 @@ function core(customConfig) {
                 case 1:
                     shellArgs = _a.sent();
                     transform_1.transformEntryToConfig(webpackConfig, entry);
-                    transform_1.transformOutputToConfig(webpackConfig);
+                    transform_1.transformOutputToConfig(webpackConfig, customConfig);
                     transform_1.transformPluginsToConfig(webpackConfig, customConfig, shellArgs, entry);
                     transform_1.transformModulesToConfig(webpackConfig, customConfig);
                     transform_1.transformOptimizationToConfig(webpackConfig, customConfig);

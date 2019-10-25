@@ -39,6 +39,7 @@ var glob = require("glob-all");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
 var path_1 = require("../../helper/path");
+var Jarvis = require("webpack-jarvis");
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
     var defineMap = { 'process.env': { NODE_ENV: JSON.stringify(webpackConfig.mode) } };
@@ -75,15 +76,24 @@ function setOptimizePlugins(webpackConfig, customConfig) {
             verbose: true
         }), new hardSourceWebpackPlugin({
             cacheDirectory: path.join(path_1.default.WORK_DIR_PATH(), '../node_modules/.cache/hard-source/[confighash]'),
-            configHash: function (webpackConfig) {
-                return require('node-object-hash')({ sort: false }).hash(webpackConfig);
-            },
+            configHash: function (webpackConfig) { return (require('node-object-hash')({ sort: false }).hash(webpackConfig)); },
             environmentHash: {
                 root: process.cwd(),
                 directories: [],
                 files: ['package-lock.json', 'yarn.lock'],
             },
-        }), new webpack.HotModuleReplacementPlugin());
+        }));
+        if (customConfig.performance) {
+            optimizePlugins.push(new Jarvis({
+                port: 3004
+            }));
+        }
+    }
+    if (webpackConfig.mode === 'development') {
+        optimizePlugins.push(new webpack.ProgressPlugin());
+        if (customConfig.devServer && customConfig.devServer.hot) {
+            optimizePlugins.push(new webpack.HotModuleReplacementPlugin());
+        }
     }
     return optimizePlugins;
 }
@@ -123,7 +133,7 @@ function setHtmlPlugins(webpackConfig, customConfig, entries) {
         htmlPlugins.push(new HtmlWebacpkPlugin({
             filename: entries[i].entry + "/index.html",
             template: entries[i].template,
-            chunks: ['manifest', 'vue-vendor', 'react-vendor', 'other-vendor', entries[i].entry,],
+            chunks: ['manifest', 'vue-vendor', 'react-vendor', 'other-vendor', 'commons', entries[i].entry,],
             chunksSortMode: 'manual'
         }));
     }

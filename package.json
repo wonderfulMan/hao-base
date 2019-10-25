@@ -73,6 +73,7 @@
     "webpack": "^4.41.0",
     "webpack-chain": "^6.0.0",
     "webpack-deep-scope-plugin": "^1.6.2",
-    "webpack-dev-server": "^3.8.2"
+    "webpack-dev-server": "^3.8.2",
+    "webpack-jarvis": "^0.3.2"
   }
 }

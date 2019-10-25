@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var path_1 = require("../../helper/path");
-function transformOutputToConfig(config) {
-    config.output = {
+function transformOutputToConfig(webpackConfig, customConfig) {
+    var selectHashType = webpackConfig.mode === 'development' ? 'hash' : 'contenthash';
+    var publicPath = webpackConfig.mode === 'development' ? '/' : customConfig.publicPath || '../';
+    webpackConfig.output = {
         path: path_1.default.BUIL_DIR_PATH,
-        filename: function (webpack) {
-            return "[name]/app-[contenthash:8].bundle.js";
-        },
-        chunkFilename: "[name]/[name]-chunk-[contenthash:8].bundle.js"
+        filename: "[name]/app-[" + selectHashType + ":8].bundle.js",
+        publicPath: publicPath,
+        chunkFilename: "[name]/[name]-chunk-[" + selectHashType + ":8].bundle.js",
     };
 }
 exports.transformOutputToConfig = transformOutputToConfig;

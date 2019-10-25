@@ -84,7 +84,7 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType, post
     if (afterLoaders.length > 0) {
         options.importLoaders = afterLoaders.length;
     }
-    if (customConfig.typescript) {
+    if (customConfig.typescript && webpackConfig.mode === 'development') {
         beforeLoaders.push({
             loader: require.resolve('@teamsupercell/typings-for-css-modules-loader'),
             options: {

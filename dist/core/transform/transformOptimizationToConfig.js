@@ -17,6 +17,7 @@ function transformOptimizationToConfig(webpackConfig, customConfig) {
             canPrint: true
         }),
         new TerserPlugin({
+            extractComments: false,
             terserOptions: {
                 parse: {
                     ecma: 8,
@@ -55,7 +56,8 @@ function transformOptimizationToConfig(webpackConfig, customConfig) {
                 commons: {
                     chunks: "all",
                     minChunks: 2,
-                    name: 'commons/commons',
+                    priority: -40,
+                    name: 'commons',
                     maxInitialRequests: 5,
                 },
                 vue: {
