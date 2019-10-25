@@ -34,17 +34,17 @@ var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var HtmlWebacpkPlugin = require("html-webpack-plugin");
-var PurgecssPlugin = require("purgecss-webpack-plugin");
-var glob = require("glob-all");
+var chalk_1 = require("chalk");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
 var path_1 = require("../../helper/path");
-var Jarvis = require("webpack-jarvis");
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 function setGlobalVarsToContext(webpackConfig, customConfig, shellArgs) {
     var defineMap = { 'process.env': { NODE_ENV: JSON.stringify(webpackConfig.mode) } };
     var curEnv = shellArgs.curEnv;
-    var customGlobalVars = customConfig.globalVars;
+    var customGlobalVars = customConfig.envVars;
     var hasProperty = check_1.getObjectSize(customGlobalVars);
     if (hasProperty && customGlobalVars) {
         var ret = Object
@@ -70,7 +70,6 @@ function setOptimizePlugins(webpackConfig, customConfig) {
         ignoreFileRegs.push(/css\.d\.ts$/, /less\.d\.ts$/, /scss\.d\.ts$/);
         optimizePlugins.push(new webpack.WatchIgnorePlugin(ignoreFileRegs));
     }
-    optimizePlugins.push(new FriendlyErrorsWebpackPlugin(friendlyOptions));
     if (webpackConfig.mode === 'production') {
         optimizePlugins.push(new clean_webpack_plugin_1.CleanWebpackPlugin({
             verbose: true
@@ -84,17 +83,19 @@ function setOptimizePlugins(webpackConfig, customConfig) {
             },
         }));
         if (customConfig.performance) {
-            optimizePlugins.push(new Jarvis({
-                port: 3004
-            }));
+            optimizePlugins.push(new BundleAnalyzerPlugin());
         }
     }
     if (webpackConfig.mode === 'development') {
-        optimizePlugins.push(new webpack.ProgressPlugin());
         if (customConfig.devServer && customConfig.devServer.hot) {
             optimizePlugins.push(new webpack.HotModuleReplacementPlugin());
         }
     }
+    optimizePlugins.push(new FriendlyErrorsWebpackPlugin(friendlyOptions));
+    optimizePlugins.push(new ProgressBarPlugin({
+        format: 'build [:bar] ' + chalk_1.default.green.bold(':percent') + ' (:elapsed seconds)',
+        clear: false,
+    }));
     return optimizePlugins;
 }
 exports.setOptimizePlugins = setOptimizePlugins;
@@ -107,18 +108,6 @@ function setStylesPlugins(webpackConfig, customConfig, entries) {
     stylesPlugins.push(new MiniCssExtractPlugin({
         filename: webpackConfig.mode === 'development' ? '[name]/[name].css' : '[name]/[name]-[chunkhash:8].css',
         chunkFilename: webpackConfig.mode === 'development' ? '[name]/[id].chunk.css' : '[name]/[id]-[chunkhash:8].css',
-    }), new PurgecssPlugin({
-        paths: function () { return glob.sync([
-            workPath + "/**/*.html",
-            workPath + "/**/*.css",
-            workPath + "/**/*.scss",
-            workPath + "/**/*.sass",
-            workPath + "/**/*.less",
-            workPath + "/**/*.js",
-        ], { nodir: true }); },
-        whitelistPatterns: function () {
-            return [/^purify-/];
-        }
     }));
     return stylesPlugins;
 }

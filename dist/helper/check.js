@@ -54,8 +54,8 @@ function checkOptions(config) {
                     if (!config.workDir) {
                         return [2, '请设置工作目录'];
                     }
-                    isPlain = isPlainObject(config.globalVars);
-                    if (config.globalVars && !isPlain) {
+                    isPlain = isPlainObject(config.envVars);
+                    if (config.envVars && !isPlain) {
                         return [2, 'globalVars选项必须为一个简单对象'];
                     }
                     return [2];

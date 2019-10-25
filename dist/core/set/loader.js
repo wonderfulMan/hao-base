@@ -54,7 +54,13 @@ exports.getStyleRules = getStyleRules;
 function getCommonJavascriptRule(webpackConfig, customConfig) {
     return {
         test: const_1.REG_TEST.jsReg.js,
-        exclude: /node_modules/,
+        exclude: function (file) {
+            var baseExclude = /node_modules/.test(file);
+            if (customConfig.frame === 'vue') {
+                return baseExclude && !/\.vue\.js/.test(file);
+            }
+            return baseExclude;
+        },
         use: [
             {
                 loader: require.resolve('babel-loader'),
@@ -71,13 +77,21 @@ function getAssetsRules() {
 }
 exports.getAssetsRules = getAssetsRules;
 function getVueRules(webpackConfig, customConfig) {
+    var hotReload = customConfig.devServer
+        ? (typeof customConfig.devServer.hot === 'boolean'
+            ? customConfig.devServer.hot
+            : true)
+        : true;
     if (customConfig.frame === 'vue') {
         return {
             test: const_1.REG_TEST.vueReg,
             exclude: /node_modules/,
             use: [
                 {
-                    loader: require.resolve('vue-loader')
+                    loader: require.resolve('vue-loader'),
+                    options: {
+                        hotReload: hotReload,
+                    }
                 }
             ]
         };

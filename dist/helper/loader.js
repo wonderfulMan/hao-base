@@ -41,7 +41,9 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType, post
     beforeLoaders.push({
         loader: require.resolve(isProduction
             ? miniCssExtractPlugin.loader
-            : (customConfig.frame === 'vue' ? 'vue-style-loader' : 'style-loader'))
+            : (customConfig.frame === 'vue'
+                ? 'vue-style-loader'
+                : 'style-loader'))
     });
     if (postcssConfig) {
         afterLoaders.push({

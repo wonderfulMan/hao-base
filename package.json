@@ -34,6 +34,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-react": "^7.6.3",
     "@teamsupercell/typings-for-css-modules-loader": "^2.0.0",
+    "@types/chalk": "^2.2.0",
     "@types/hard-source-webpack-plugin": "^1.0.1",
     "@types/html-webpack-plugin": "^3.2.1",
     "@types/mini-css-extract-plugin": "^0.8.0",
@@ -60,6 +61,7 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-url": "^8.0.0",
+    "progress-bar-webpack-plugin": "^1.12.1",
     "purgecss-webpack-plugin": "^1.6.0",
     "sass-loader": "^8.0.0",
     "shelljs": "^0.8.3",
@@ -71,9 +73,10 @@
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.41.0",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-chain": "^6.0.0",
+    "webpack-dashboard": "^3.2.0",
     "webpack-deep-scope-plugin": "^1.6.2",
-    "webpack-dev-server": "^3.8.2",
-    "webpack-jarvis": "^0.3.2"
+    "webpack-dev-server": "^3.8.2"
   }
 }

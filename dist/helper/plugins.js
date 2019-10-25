@@ -5,7 +5,7 @@ var NodeNotifier = require("node-notifier");
 function setConsoleMessageByMode(webpackConfig) {
     var options = {
         compilationSuccessInfo: {
-            messages: [webpackConfig.mode === 'production' ? '应用构建中...' : '当前程序运行端口'],
+            messages: ['应用构建中...'],
             notes: []
         },
         onErrors: function (severity, errors) {

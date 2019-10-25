@@ -32,7 +32,7 @@ function autoGetHost() {
     catch (e) {
         needHost = 'localhost';
     }
-    return '0.0.0.0';
+    return needHost;
 }
 function server(webpackConfig, customConfig) {
     var host = autoGetHost();
