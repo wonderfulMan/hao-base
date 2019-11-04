@@ -27,7 +27,7 @@ function transformResolveToConfig(webpackConfig, customConfig) {
         extensions.push('.tsx');
     }
     if (customConfig.frame === 'vue') {
-        alias['vue$'] = 'vue/dist/vue.js';
+        alias['vue$'] = require.resolve('vue/dist/vue.js');
         extensions.push('.vue');
     }
     if (customConfig.alias) {

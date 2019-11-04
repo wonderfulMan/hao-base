@@ -27,7 +27,7 @@ function transformModulesToConfig(webpackConfig, customConfig) {
     var styleRule = loader_1.getStyleRules(webpackConfig, customConfig);
     var vueRules = loader_1.getVueRules(webpackConfig, customConfig);
     vueRules && rules.push(vueRules);
-    rules.push({ oneOf: __spread([commonJavascriptRule], styleRule) });
+    rules.push.apply(rules, __spread([commonJavascriptRule], styleRule));
     webpackConfig.module = { rules: rules };
 }
 exports.transformModulesToConfig = transformModulesToConfig;
