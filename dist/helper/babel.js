@@ -25,6 +25,7 @@ var generatorBabelConfig = function (frame) {
     };
     if (frame === 'react') {
         baseConfig.presets.push([require.resolve('@babel/preset-react')]);
+        baseConfig.plugins.push(require.resolve('react-hot-loader/babel'));
     }
     return baseConfig;
 };

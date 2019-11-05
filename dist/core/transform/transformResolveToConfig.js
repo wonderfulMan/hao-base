@@ -25,6 +25,7 @@ function transformResolveToConfig(webpackConfig, customConfig) {
     }
     if (customConfig.frame === 'react' && customConfig.typescript) {
         extensions.push('.tsx');
+        alias['react-dom'] = require.resolve('@hot-loader/react-dom');
     }
     if (customConfig.frame === 'vue') {
         alias['vue$'] = require.resolve('vue/dist/vue.js');

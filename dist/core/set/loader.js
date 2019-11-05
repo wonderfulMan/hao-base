@@ -74,6 +74,20 @@ function getTsRules() {
 }
 exports.getTsRules = getTsRules;
 function getAssetsRules() {
+    var fileRules = {
+        test: /\.(png|jpe?g|gif|webp)$/,
+        use: [
+            {
+                loader: require.resolve('url-loader'),
+                options: {
+                    limit: 1000,
+                    outputPath: 'images/',
+                    name: '[name].[hash:8].[ext]',
+                }
+            }
+        ]
+    };
+    return fileRules;
 }
 exports.getAssetsRules = getAssetsRules;
 function getVueRules(webpackConfig, customConfig) {
