@@ -34,6 +34,7 @@ var hardSourceWebpackPlugin = require("hard-source-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var HtmlWebacpkPlugin = require("html-webpack-plugin");
+var ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 var chalk_1 = require("chalk");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
@@ -135,3 +136,14 @@ function setVueLoaderPlugin(webpackConfig, customConfig) {
     }
 }
 exports.setVueLoaderPlugin = setVueLoaderPlugin;
+function setTypescirptPlugin(webpackConfig, customConfig) {
+    if (customConfig.typescript) {
+        return new ForkTsCheckerWebpackPlugin({
+            tsconfig: path.join(process.cwd(), './tsconfig.json'),
+            async: webpackConfig.mode === 'development',
+            useTypescriptIncrementalApi: true,
+            checkSyntacticErrors: true,
+        });
+    }
+}
+exports.setTypescirptPlugin = setTypescirptPlugin;

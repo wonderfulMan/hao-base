@@ -53,7 +53,7 @@ function getStyleRules(webpackConfig, customConfig) {
 exports.getStyleRules = getStyleRules;
 function getCommonJavascriptRule(webpackConfig, customConfig) {
     return {
-        test: const_1.REG_TEST.jsReg.js,
+        test: customConfig.typescript ? const_1.REG_TEST.tsReg : const_1.REG_TEST.jsReg.js,
         exclude: function (file) {
             var baseExclude = /node_modules/.test(file);
             if (customConfig.frame === 'vue') {
@@ -64,15 +64,12 @@ function getCommonJavascriptRule(webpackConfig, customConfig) {
         use: [
             {
                 loader: require.resolve('babel-loader'),
-                options: babel_1.default(customConfig.frame)
+                options: babel_1.default(customConfig)
             }
         ]
     };
 }
 exports.getCommonJavascriptRule = getCommonJavascriptRule;
-function getTsRules() {
-}
-exports.getTsRules = getTsRules;
 function getAssetsRules() {
     var fileRules = {
         test: /\.(png|jpe?g|gif|webp)$/,
@@ -84,10 +81,43 @@ function getAssetsRules() {
                     outputPath: 'images/',
                     name: '[name].[hash:8].[ext]',
                 }
+            },
+            {
+                loader: require.resolve('image-webpack-loader'),
+                options: {
+                    mozjpeg: {
+                        progressive: true,
+                        quality: 65
+                    },
+                    pngquant: {
+                        quality: [0.65, 0.90],
+                        speed: 4
+                    },
+                    gifsicle: {
+                        interlaced: false,
+                    },
+                    webp: {
+                        quality: 75
+                    }
+                }
             }
         ]
     };
-    return fileRules;
+    var fontRules = {
+        test: /\.(eot|woff2?|ttf|svg)$/,
+        use: [
+            {
+                loader: "url-loader",
+                options: {
+                    name: "[name]-[hash:5].min.[ext]",
+                    limit: 5000,
+                    publicPath: "fonts/",
+                    outputPath: "fonts/"
+                }
+            }
+        ]
+    };
+    return [fileRules, fontRules];
 }
 exports.getAssetsRules = getAssetsRules;
 function getVueRules(webpackConfig, customConfig) {

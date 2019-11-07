@@ -17,7 +17,7 @@ function transformOptimizationToConfig(webpackConfig, customConfig) {
             canPrint: true
         }),
         new TerserPlugin({
-            extractComments: false,
+            extractComments: true,
             terserOptions: {
                 parse: {
                     ecma: 8,

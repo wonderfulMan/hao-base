@@ -22,7 +22,7 @@ exports.REG_TEST = {
         js: /\.(js|jsx)?$/,
         json: /\.json?$/
     },
-    tsReg: /\.(ts|tsx)/,
+    tsReg: /\.(j|t)sx?$/,
     asseteReg: {
         image: /\.(bmp|gif|jpe?g|png)/,
         font: /\.(eot|woff2?|ttf|svg)$/
