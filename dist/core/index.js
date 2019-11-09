@@ -57,6 +57,7 @@ function core(customConfig) {
                     transform_1.transformOptimizationToConfig(webpackConfig, customConfig);
                     transform_1.transformResolveToConfig(webpackConfig, customConfig);
                     transform_1.transformExtensionsToConfig(webpackConfig, customConfig);
+                    console.log(JSON.stringify(webpackConfig));
                     compiler_1.compiler(webpackConfig, customConfig);
                     return [2];
             }

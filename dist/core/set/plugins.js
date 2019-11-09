@@ -105,7 +105,6 @@ function setStylesPlugins(webpackConfig, customConfig, entries) {
     if (!entries) {
         check_1.errorMessageExit('没有找到入口文件');
     }
-    var workPath = path_1.default.WORK_DIR_PATH();
     stylesPlugins.push(new MiniCssExtractPlugin({
         filename: webpackConfig.mode === 'development' ? '[name]/[name].css' : '[name]/[name]-[chunkhash:8].css',
         chunkFilename: webpackConfig.mode === 'development' ? '[name]/[id].chunk.css' : '[name]/[id]-[chunkhash:8].css',

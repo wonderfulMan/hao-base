@@ -16,7 +16,9 @@ var __read = (this && this.__read) || function (o, n) {
     return ar;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
 var check_1 = require("../../helper/check");
+var path_1 = require("../../helper/path");
 function transformResolveToConfig(webpackConfig, customConfig) {
     var alias = {};
     var extensions = ['.js', '.jsx'];
@@ -28,7 +30,7 @@ function transformResolveToConfig(webpackConfig, customConfig) {
         alias['react-dom'] = require.resolve('@hot-loader/react-dom');
     }
     if (customConfig.frame === 'vue') {
-        alias['vue$'] = require.resolve('vue/dist/vue.js');
+        alias['vue$'] = require.resolve('vue/dist/vue.esm.js');
         extensions.push('.vue');
     }
     if (customConfig.alias) {
@@ -37,11 +39,10 @@ function transformResolveToConfig(webpackConfig, customConfig) {
             Object.entries(customConfig.alias)
                 .forEach(function (_a) {
                 var _b = __read(_a, 2), key = _b[0], value = _b[1];
-                return (alias[key] = value);
+                return (alias[key] = path.join(path_1.default.WORK_DIR_PATH(), value));
             });
         }
     }
-    extensions.push('.css', '.scss');
     webpackConfig.resolve = {
         alias: alias,
         extensions: extensions
