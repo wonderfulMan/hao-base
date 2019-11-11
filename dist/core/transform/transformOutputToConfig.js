@@ -9,6 +9,7 @@ function transformOutputToConfig(webpackConfig, customConfig) {
         filename: "[name]/app-[" + selectHashType + ":8].bundle.js",
         publicPath: publicPath,
         chunkFilename: "[name]/[name]-chunk-[" + selectHashType + ":8].bundle.js",
+        pathinfo: webpackConfig.mode === 'development'
     };
 }
 exports.transformOutputToConfig = transformOutputToConfig;

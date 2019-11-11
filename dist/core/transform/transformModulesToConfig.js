@@ -27,8 +27,13 @@ function transformModulesToConfig(webpackConfig, customConfig) {
     var styleRule = loader_1.getStyleRules(webpackConfig, customConfig);
     var vueRules = loader_1.getVueRules(webpackConfig, customConfig);
     var assetesRules = loader_1.getAssetsRules();
+    var parseRules = { parser: { requireEnsure: false } };
     vueRules && rules.push(vueRules);
-    rules.push.apply(rules, __spread([commonJavascriptRule], styleRule, assetesRules));
-    webpackConfig.module = { rules: rules };
+    rules.push.apply(rules, __spread([parseRules,
+        commonJavascriptRule], styleRule, assetesRules));
+    webpackConfig.module = {
+        strictExportPresence: true,
+        rules: rules
+    };
 }
 exports.transformModulesToConfig = transformModulesToConfig;

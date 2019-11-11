@@ -123,7 +123,20 @@ function setHtmlPlugins(webpackConfig, customConfig, entries) {
             filename: entries[i].entry + "/index.html",
             template: entries[i].template,
             chunks: ['manifest', 'vue-vendor', 'react-vendor', 'other-vendor', 'commons', entries[i].entry,],
-            chunksSortMode: 'manual'
+            chunksSortMode: 'manual',
+            minify: webpackConfig.mode === 'production' ?
+                {
+                    removeComments: true,
+                    collapseWhitespace: true,
+                    removeRedundantAttributes: true,
+                    useShortDoctype: true,
+                    removeEmptyAttributes: true,
+                    removeStyleLinkTypeAttributes: true,
+                    keepClosingSlash: true,
+                    minifyJS: true,
+                    minifyCSS: true,
+                    minifyURLs: true,
+                } : undefined
         }));
     }
     return htmlPlugins;
@@ -142,6 +155,8 @@ function setTypescirptPlugin(webpackConfig, customConfig) {
             async: webpackConfig.mode === 'development',
             useTypescriptIncrementalApi: true,
             checkSyntacticErrors: true,
+            watch: path_1.default.WORK_DIR_PATH(),
+            silent: true,
         });
     }
 }

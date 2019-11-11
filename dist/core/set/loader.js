@@ -3,8 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var const_1 = require("../../const");
 var loader_1 = require("../../helper/loader");
-var babel_1 = require("../../helper/babel");
 var read_1 = require("../../helper/read");
+var eslint_1 = require("../../helper/eslint");
+var babel_1 = require("../../helper/babel");
 function getStyleRules(webpackConfig, customConfig) {
     var absolutePath = read_1.getDirPath('postcss.config.js');
     var postcssConfig = null;
@@ -52,8 +53,19 @@ function getStyleRules(webpackConfig, customConfig) {
 }
 exports.getStyleRules = getStyleRules;
 function getCommonJavascriptRule(webpackConfig, customConfig) {
+    var useLoaders = [{
+            loader: require.resolve('babel-loader'),
+            options: babel_1.default(customConfig)
+        }];
+    if (customConfig.openEslint) {
+        useLoaders.push({
+            loader: require.resolve('eslint-loader'),
+            options: eslint_1.generatorEslintOptions(webpackConfig, customConfig)
+        });
+    }
     return {
         test: customConfig.typescript ? const_1.REG_TEST.tsReg : const_1.REG_TEST.jsReg.js,
+        enforce: customConfig.openEslint ? 'pre' : undefined,
         exclude: function (file) {
             var baseExclude = /node_modules/.test(file);
             if (customConfig.frame === 'vue') {
@@ -61,12 +73,7 @@ function getCommonJavascriptRule(webpackConfig, customConfig) {
             }
             return baseExclude;
         },
-        use: [
-            {
-                loader: require.resolve('babel-loader'),
-                options: babel_1.default(customConfig)
-            }
-        ]
+        use: useLoaders
     };
 }
 exports.getCommonJavascriptRule = getCommonJavascriptRule;

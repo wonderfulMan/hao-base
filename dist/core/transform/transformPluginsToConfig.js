@@ -28,8 +28,10 @@ function transformPluginsToConfig(webpackConfig, customConfig, shellArgs, entry)
     var stylesPlugins = plugins_1.setStylesPlugins(webpackConfig, customConfig, entry);
     var htmlPlugins = plugins_1.setHtmlPlugins(webpackConfig, customConfig, entry);
     var vueLoaderPlugin = plugins_1.setVueLoaderPlugin(webpackConfig, customConfig);
-    vueLoaderPlugin && plugins.push(vueLoaderPlugin);
+    var typescriptPlugin = plugins_1.setTypescirptPlugin(webpackConfig, customConfig);
     plugins.push.apply(plugins, __spread([definevVarsPlugin], stylesPlugins, optimizePlugins, htmlPlugins));
+    vueLoaderPlugin && plugins.push(vueLoaderPlugin);
+    typescriptPlugin && plugins.push(typescriptPlugin);
     webpackConfig.plugins = plugins;
 }
 exports.transformPluginsToConfig = transformPluginsToConfig;

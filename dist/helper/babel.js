@@ -23,13 +23,13 @@ var generatorBabelConfig = function (customConfig) {
             require.resolve("@babel/plugin-syntax-dynamic-import")
         ]
     };
-    if (customConfig.typescript) {
-        baseConfig.presets.push([require.resolve('@babel/preset-typescript')]);
-        baseConfig.plugins.push(require.resolve('@babel/plugin-transform-typescript'));
-    }
     if (customConfig.frame === 'react') {
         baseConfig.presets.push([require.resolve('@babel/preset-react')]);
         baseConfig.plugins.push(require.resolve('react-hot-loader/babel'));
+    }
+    if (customConfig.typescript) {
+        baseConfig.presets.push([require.resolve('@babel/preset-typescript')]);
+        baseConfig.plugins.push(require.resolve('@babel/plugin-transform-typescript'));
     }
     return baseConfig;
 };

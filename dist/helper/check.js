@@ -51,7 +51,6 @@ function checkOptions(config) {
                     if (args.mode !== "build" && args.mode !== "dev") {
                         return [2, 'mode选项只能为build or dev'];
                     }
-                    console.log(config);
                     if (!config.workDir) {
                         return [2, '请设置工作目录'];
                     }
