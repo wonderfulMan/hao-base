@@ -38,6 +38,7 @@ var ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 var chalk_1 = require("chalk");
 var check_1 = require("../../helper/check");
 var plugins_1 = require("../../helper/plugins");
+var tsFormatter_1 = require("../../helper/tsFormatter");
 var path_1 = require("../../helper/path");
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -152,11 +153,15 @@ function setTypescirptPlugin(webpackConfig, customConfig) {
     if (customConfig.typescript) {
         return new ForkTsCheckerWebpackPlugin({
             tsconfig: path.join(process.cwd(), './tsconfig.json'),
-            async: webpackConfig.mode === 'development',
+            async: false,
             useTypescriptIncrementalApi: true,
             checkSyntacticErrors: true,
             watch: path_1.default.WORK_DIR_PATH(),
             silent: true,
+            reportFiles: [
+                "**"
+            ],
+            formatter: webpackConfig.mode === 'production' ? tsFormatter_1.tsFormatter : undefined
         });
     }
 }

@@ -11,71 +11,70 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var eslintFormatter_1 = require("./eslintFormatter");
-function generatorEslintOptions(webpackConfig, customConfig) {
-    var eslintConfig = customConfig.eslintConfig;
+function getEslintParser(customConfig) {
     var parser = 'babel-eslint';
-    var rules = {};
-    var esLintExtends = ['standard'];
-    var extensions = ['.js', 'jsx'];
+    if (customConfig.eslintConfig.parser) {
+        parser = customConfig.eslintConfig.parser;
+    }
+    if (customConfig.typescript) {
+        parser = '@typescript-eslint/parser';
+    }
+    return parser;
+}
+function getParserOptions(customConfig) {
+    var ecmaVersion = customConfig.eslintConfig.parserOptions.ecmaVersion;
+    var parserOptions = {
+        "parser": getEslintParser(customConfig),
+        "ecmaVersion": ecmaVersion || '6',
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "experimentalObjectRestSpread": true
+        }
+    };
+    return parserOptions;
+}
+function getPlugins(customConfig) {
     var plugins = [];
     if (customConfig.frame === 'vue') {
-        extensions.push('.vue');
         plugins.push('vue');
     }
     if (customConfig.frame === 'react') {
         plugins.push('react');
     }
     if (customConfig.typescript) {
-        extensions.push('.ts', '.tsx');
+        plugins.push("@typescript-eslint");
     }
-    if (eslintConfig) {
-        if (eslintConfig.parser) {
-            parser = eslintConfig.parser;
-        }
-        if (eslintConfig.plugins) {
-            plugins.push(eslintConfig.plugins);
-        }
-        if (eslintConfig.rules) {
-            rules = __assign(__assign({}, rules), eslintConfig.rules);
-        }
-        if (eslintConfig.prettier) {
-            esLintExtends = ["plugin:prettier/recommended"];
-        }
-        if (eslintConfig.extends) {
-            esLintExtends.push(eslintConfig.extends);
-        }
+    plugins.push('prettier');
+    return plugins;
+}
+function getExtends(customConfig) {
+    var eslintExtends = ["airbnb"];
+    if (customConfig.frame === 'react') {
+        eslintExtends.push("airbnb/hooks", "prettier/react", "plugin:react/recommended");
     }
+    if (customConfig.frame === 'vue') {
+        eslintExtends.push("plugin:vue/essential");
+    }
+    if (customConfig.typescript) {
+        eslintExtends.push("plugin:@typescript-eslint/recommended", "prettier/@typescript-eslint");
+    }
+    eslintExtends.push("plugin:prettier/recommended");
+    return eslintExtends;
+}
+function eslintrcConfig(webpackConfig, customConfig) {
+    var parserOptions = getParserOptions(customConfig);
+    var plugins = getPlugins(customConfig);
+    var esExtends = getExtends(customConfig);
     return {
-        baseConfig: {
-            root: true,
-            extends: esLintExtends,
-            plugins: plugins,
-            rules: rules
-        },
-        extensions: extensions,
-        formatter: eslintFormatter_1.formatter,
-        useEslintrc: false,
-        cache: true,
-        fix: true,
-        emitWarning: true,
-        parserOptions: {
-            parser: parser,
-            ecmaVersion: 6,
-            sourceType: "module",
-            ecmaFeatures: {
-                jsx: true,
-                experimentalObjectRestSpread: true
-            }
-        },
-        envs: [
-            'browser',
-            'jquery',
-            'node',
-            'commonjs',
-            'es6',
-            'amd'
-        ]
+        "root": customConfig.eslintConfig.root || true,
+        "env": __assign({ "browser": true, "es6": true }, customConfig.eslintConfig.env),
+        "rules": __assign({}, customConfig.eslintConfig.rules),
+        "globals": __assign({}, customConfig.eslintConfig.globals),
+        "settings": __assign({}, customConfig.eslintConfig.settings),
+        "extends": esExtends,
+        parserOptions: parserOptions,
+        plugins: plugins,
     };
 }
-exports.generatorEslintOptions = generatorEslintOptions;
+exports.eslintrcConfig = eslintrcConfig;

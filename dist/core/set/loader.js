@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
+var path = require("path");
 var const_1 = require("../../const");
 var loader_1 = require("../../helper/loader");
 var read_1 = require("../../helper/read");
-var eslint_1 = require("../../helper/eslint");
+var path_1 = require("../../helper/path");
 var babel_1 = require("../../helper/babel");
+var eslint_1 = require("../../helper/eslint");
 function getStyleRules(webpackConfig, customConfig) {
     var absolutePath = read_1.getDirPath('postcss.config.js');
     var postcssConfig = null;
@@ -60,7 +62,7 @@ function getCommonJavascriptRule(webpackConfig, customConfig) {
     if (customConfig.openEslint) {
         useLoaders.push({
             loader: require.resolve('eslint-loader'),
-            options: eslint_1.generatorEslintOptions(webpackConfig, customConfig)
+            options: eslintLoaderConfig(webpackConfig, customConfig)
         });
     }
     return {
@@ -149,3 +151,16 @@ function getVueRules(webpackConfig, customConfig) {
     }
 }
 exports.getVueRules = getVueRules;
+function eslintLoaderConfig(webpackConfig, customConfig) {
+    return {
+        fix: true,
+        cache: webpackConfig.mode === 'development' ? path.join(path_1.default.WORK_DIR_PATH(), '../node_modules/.cache/eslint') : false,
+        failOnError: webpackConfig.mode === 'production',
+        useEslintrc: false,
+        formatter: require.resolve('eslint-friendly-formatter'),
+        baseConfig: {
+            extends: eslint_1.eslintrcConfig
+        }
+    };
+}
+exports.eslintLoaderConfig = eslintLoaderConfig;
