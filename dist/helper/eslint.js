@@ -11,6 +11,8 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
+var path_1 = require("./path");
 function getEslintParser(customConfig) {
     var parser = 'babel-eslint';
     if (customConfig.eslintConfig.parser) {
@@ -22,10 +24,10 @@ function getEslintParser(customConfig) {
     return parser;
 }
 function getParserOptions(customConfig) {
-    var ecmaVersion = customConfig.eslintConfig.parserOptions.ecmaVersion;
+    var eslintConfig = customConfig.eslintConfig.parserOptions;
     var parserOptions = {
         "parser": getEslintParser(customConfig),
-        "ecmaVersion": ecmaVersion || '6',
+        "ecmaVersion": eslintConfig ? eslintConfig.ecmaVersion : '6',
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true,
@@ -62,17 +64,65 @@ function getExtends(customConfig) {
     eslintExtends.push("plugin:prettier/recommended");
     return eslintExtends;
 }
+function getRules(customConfig) {
+    var rules = {};
+    var extensions = [".js", ".jsx"];
+    if (customConfig.frame === 'react') {
+        customConfig.typescript && extensions.push('.tsx');
+    }
+    customConfig.frame === 'vue' && extensions.push('.vue');
+    if (customConfig.typescript) {
+        rules["@typescript-eslint/explicit-function-return-type"] = [
+            "warn",
+            {
+                "allowExpressions": true,
+                "allowTypedFunctionExpressions": true
+            }
+        ];
+    }
+    rules["react/jsx-filename-extension"] = ["warn", { extensions: extensions }];
+    rules["import/no-extraneous-dependencies"] = [
+        "error",
+        {
+            "packageDir": [path.resolve(__dirname, '../../'), path.join(path_1.default.WORK_DIR_PATH(), '../')]
+        }
+    ];
+    return __assign(__assign({}, rules), customConfig.eslintConfig.rules);
+}
+function getSettings(customConfig) {
+    var settings = {};
+    var extensions = [".js", ".jsx"];
+    if (customConfig.frame === 'react') {
+        customConfig.typescript && extensions.push('.tsx');
+    }
+    customConfig.frame === 'vue' && extensions.push('.vue');
+    settings["import/resolver"] = {
+        "webpack": {
+            "config": {
+                "resolve": {
+                    extensions: extensions,
+                    alias: {
+                        'react-dom': require.resolve('@hot-loader/react-dom')
+                    }
+                }
+            }
+        }
+    };
+    return __assign(__assign({}, settings), customConfig.eslintConfig.settings);
+}
 function eslintrcConfig(webpackConfig, customConfig) {
     var parserOptions = getParserOptions(customConfig);
     var plugins = getPlugins(customConfig);
     var esExtends = getExtends(customConfig);
+    var rules = getRules(customConfig);
+    var settings = getSettings(customConfig);
     return {
         "root": customConfig.eslintConfig.root || true,
         "env": __assign({ "browser": true, "es6": true }, customConfig.eslintConfig.env),
-        "rules": __assign({}, customConfig.eslintConfig.rules),
         "globals": __assign({}, customConfig.eslintConfig.globals),
-        "settings": __assign({}, customConfig.eslintConfig.settings),
         "extends": esExtends,
+        settings: settings,
+        rules: rules,
         parserOptions: parserOptions,
         plugins: plugins,
     };
