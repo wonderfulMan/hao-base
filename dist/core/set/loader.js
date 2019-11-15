@@ -27,32 +27,26 @@ function getStyleRules(webpackConfig, customConfig) {
     }
     var cssNormalRules = {
         test: const_1.REG_TEST.styleReg.css.normal,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, false, 'css', postcssConfig)
     };
     var cssModuleRules = {
         test: const_1.REG_TEST.styleReg.css.module,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, true, 'css', postcssConfig)
     };
     var lessNormalRules = {
         test: const_1.REG_TEST.styleReg.less.normal,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, false, 'less', postcssConfig)
     };
     var lessModuleRules = {
         test: const_1.REG_TEST.styleReg.less.module,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, true, 'less', postcssConfig)
     };
     var sassNormalRules = {
         test: const_1.REG_TEST.styleReg.scss.normal,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, false, 'scss', postcssConfig)
     };
     var sassModuleRules = {
         test: const_1.REG_TEST.styleReg.scss.module,
-        exclude: /node_modules/,
         use: loader_1.getStyleLoaders(webpackConfig, customConfig, true, 'scss', postcssConfig)
     };
     return [
