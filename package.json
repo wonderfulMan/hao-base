@@ -1,6 +1,6 @@
 {
   "name": "hao-base",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "./dist/index.js",
   "repository": "https://github.com/wonderfulMan/hao-base.git",
   "author": "wonderfulMan <1259243840@qq.com>",
@@ -40,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
     "add": "^2.0.6",
+    "address": "^1.1.2",
     "autoprefixer": "^9.6.5",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
