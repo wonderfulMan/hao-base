@@ -95,7 +95,7 @@ function getRules(customConfig) {
             "packageDir": [path.resolve(__dirname, '../../'), path.join(path_1.default.WORK_DIR_PATH(), '../')]
         }
     ];
-    return __assign(__assign({}, rules), customConfig.eslintConfig.rules);
+    return __assign(__assign({}, rules), (customConfig.eslintConfig && customConfig.eslintConfig.rules));
 }
 function getSettings(customConfig) {
     var settings = {};
