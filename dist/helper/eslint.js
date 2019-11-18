@@ -32,25 +32,16 @@ var path_1 = require("./path");
 var check_1 = require("../helper/check");
 function getEslintParser(customConfig) {
     var parser = 'babel-eslint';
-    if (customConfig.eslintConfig.parser) {
-        parser = customConfig.eslintConfig.parser;
-    }
     if (customConfig.typescript) {
         parser = '@typescript-eslint/parser';
     }
     return parser;
 }
 function getParserOptions(customConfig) {
-    var eslintConfig = customConfig.eslintConfig.parserOptions;
-    var parserOptions = {
-        "parser": getEslintParser(customConfig),
-        "ecmaVersion": eslintConfig ? eslintConfig.ecmaVersion : '6',
-        "sourceType": "module",
-        "ecmaFeatures": {
+    var parserOptions = __assign({ "parser": getEslintParser(customConfig), "ecmaVersion": 6, "sourceType": "module", "ecmaFeatures": {
             "jsx": true,
             "experimentalObjectRestSpread": true
-        }
-    };
+        } }, (customConfig.eslintConfig && customConfig.eslintConfig.parserOptions));
     return parserOptions;
 }
 function getPlugins(customConfig) {
@@ -134,7 +125,7 @@ function getSettings(customConfig) {
             }
         }
     };
-    return __assign(__assign({}, settings), customConfig.eslintConfig.settings);
+    return __assign(__assign({}, settings), (customConfig.eslintConfig && customConfig.eslintConfig.settings));
 }
 function eslintrcConfig(webpackConfig, customConfig) {
     var parserOptions = getParserOptions(customConfig);
@@ -143,9 +134,9 @@ function eslintrcConfig(webpackConfig, customConfig) {
     var rules = getRules(customConfig);
     var settings = getSettings(customConfig);
     return {
-        "root": customConfig.eslintConfig.root || true,
-        "env": __assign({ "browser": true, "es6": true }, customConfig.eslintConfig.env),
-        "globals": __assign({}, customConfig.eslintConfig.globals),
+        "root": (customConfig.eslintConfig && customConfig.eslintConfig.root) || true,
+        "env": __assign({ "browser": true, "es6": true }, (customConfig.eslintConfig && customConfig.eslintConfig.env)),
+        "globals": __assign({}, (customConfig.eslintConfig && customConfig.eslintConfig.globals)),
         "extends": esExtends,
         settings: settings,
         rules: rules,
