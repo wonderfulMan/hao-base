@@ -64,7 +64,7 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType, post
     if (customConfig.styleResources &&
         customConfig.styleResources.length > 0) {
         afterLoaders.push({
-            loader: require.resolve('sass-resource-loader'),
+            loader: require.resolve('sass-resources-loader'),
             options: {
                 resources: customConfig.styleResources
                     .map(function (filePath) { return path.join(path_1.default.WORK_DIR_PATH(customConfig.workDir), filePath); })
