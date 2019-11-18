@@ -75,6 +75,9 @@ function getExtends(customConfig) {
 function getRules(customConfig) {
     var rules = {};
     var extensions = [".js", ".jsx"];
+    if (customConfig.typescript) {
+        extensions.push('.ts');
+    }
     if (customConfig.frame === 'react') {
         customConfig.typescript && extensions.push('.tsx');
     }
@@ -101,6 +104,9 @@ function getSettings(customConfig) {
     var settings = {};
     var extensions = [".js", ".jsx"];
     var alias = {};
+    if (customConfig.typescript) {
+        extensions.push('.ts');
+    }
     if (customConfig.frame === 'react') {
         customConfig.typescript && extensions.push('.tsx');
     }
