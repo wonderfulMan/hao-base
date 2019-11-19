@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/hao/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add sass-resource-loader -S
+  /Users/hao/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add @types/address -S
 
 PATH: 
   /Users/hao/.cargo/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin:/Users/hao/flutterDev/flutter/bin:/Users/hao/golib/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin:/Users/hao/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/hao/.cargo/bin:/Users/hao/flutterDev/flutter/bin:/Users/hao/golib/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/sass-resource-loader: Not found
+  Error: https://registry.yarnpkg.com/@types%2faddress: Not found
       at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:66255:18)
       at Request.self.callback (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:129397:22)
       at emitTwo (events.js:126:13)
@@ -29,7 +29,7 @@ Trace:
 npm manifest: 
   {
     "name": "hao-base",
-    "version": "1.3.4",
+    "version": "1.4.0",
     "main": "./dist/index.js",
     "repository": "https://github.com/wonderfulMan/hao-base.git",
     "author": "wonderfulMan <1259243840@qq.com>",
@@ -69,6 +69,7 @@ npm manifest:
       "@typescript-eslint/eslint-plugin": "^2.7.0",
       "@typescript-eslint/parser": "^2.7.0",
       "add": "^2.0.6",
+      "address": "^1.1.2",
       "autoprefixer": "^9.6.5",
       "babel-eslint": "^10.0.3",
       "babel-loader": "^8.0.6",
@@ -116,6 +117,7 @@ npm manifest:
       "react": "^16.11.0",
       "react-hot-loader": "^4.12.15",
       "sass-loader": "^8.0.0",
+      "sass-resources-loader": "^2.0.1",
       "shelljs": "^0.8.3",
       "speed-measure-webpack-plugin": "^1.3.1",
       "strip-ansi": "^6.0.0",
@@ -1616,6 +1618,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/add/-/add-2.0.6.tgz#248f0a9f6e5a528ef2295dbeec30532130ae2235"
     integrity sha1-JI8Kn25aUo7yKV2+7DBTITCuIjU=
   
+  address@^1.1.2:
+    version "1.1.2"
+    resolved "https://registry.yarnpkg.com/address/-/address-1.1.2.tgz#bf1116c9c758c51b7a933d296b72c221ed9428b6"
+    integrity sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==
+  
   after@0.8.2:
     version "0.8.2"
     resolved "https://registry.yarnpkg.com/after/-/after-0.8.2.tgz#fedb394f9f0e02aa9768e702bda23b505fae7e1f"
@@ -1907,7 +1914,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
     integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
   
-  async@^2.6.2:
+  async@^2.1.4, async@^2.6.2:
     version "2.6.3"
     resolved "https://registry.yarnpkg.com/async/-/async-2.6.3.tgz#d72625e2344a3656e3a3ad4fa749fa83299d82ff"
     integrity sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==
@@ -5045,6 +5052,18 @@ Lockfile:
       once "^1.3.0"
       path-is-absolute "^1.0.0"
   
+  glob@^7.1.1:
+    version "7.1.6"
+    resolved "https://registry.yarnpkg.com/glob/-/glob-7.1.6.tgz#141f33b81a7c2492e125594307480c46679278a6"
+    integrity sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==
+    dependencies:
+      fs.realpath "^1.0.0"
+      inflight "^1.0.4"
+      inherits "2"
+      minimatch "^3.0.4"
+      once "^1.3.0"
+      path-is-absolute "^1.0.0"
+  
   global-dirs@^0.1.0:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/global-dirs/-/global-dirs-0.1.1.tgz#b319c0dd4607f353f3be9cca4c72fc148c49f445"
@@ -6550,7 +6569,7 @@ Lockfile:
       json5 "^0.5.0"
       object-assign "^4.0.1"
   
-  loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.1.0, loader-utils@^1.2.3:
+  loader-utils@1.2.3, loader-utils@^1.0.2, loader-utils@^1.0.4, loader-utils@^1.1.0, loader-utils@^1.2.3:
     version "1.2.3"
     resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.2.3.tgz#1ff5dc6911c9f0a062531a4c04b609406108c2c7"
     integrity sha512-fkpz8ejdnEMG3s37wGL07iSBDg99O9D5yflE9RGNH3hRdx9SOwYfnGYdZOUIZitN8E+E2vkq3MUMYMvPYl5ZZA==
@@ -9215,6 +9234,16 @@ Lockfile:
       neo-async "^2.6.1"
       schema-utils "^2.1.0"
       semver "^6.3.0"
+  
+  sass-resources-loader@^2.0.1:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/sass-resources-loader/-/sass-resources-loader-2.0.1.tgz#c8427f3760bf7992f24f27d3889a1c797e971d3a"
+    integrity sha512-UsjQWm01xglINC1kPidYwKOBBzOElVupm9RwtOkRlY0hPA4GKi2KFsn4BZypRD1kudaXgUnGnfbiVOE7c+ybAg==
+    dependencies:
+      async "^2.1.4"
+      chalk "^1.1.3"
+      glob "^7.1.1"
+      loader-utils "^1.0.4"
   
   sax@^1.2.4, sax@~1.2.4:
     version "1.2.4"

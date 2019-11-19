@@ -11,26 +11,19 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var os = require("os");
+var address = require("address");
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
 var path_1 = require("../helper/path");
 function autoGetHost() {
-    var needHost = '';
-    try {
-        var network = os.networkInterfaces();
-        for (var dev in network) {
-            var iface = network[dev];
-            for (var i = 0; i < iface.length; i++) {
-                var alias = iface[i];
-                if (alias.family === 'IPv4' && alias.address !== '127.0.0.1' && !alias.internal) {
-                    needHost = alias.address;
-                }
-            }
+    var needHost = address.ip();
+    if (needHost) {
+        if (/^10[.]|^172[.](1[6-9]|2[0-9]|3[0-1])[.]|^192[.]168[.]/.test(needHost)) {
+            needHost = needHost;
         }
-    }
-    catch (e) {
-        needHost = 'localhost';
+        else {
+            needHost = 'localhost';
+        }
     }
     return needHost;
 }

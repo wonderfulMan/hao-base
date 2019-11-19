@@ -26,11 +26,10 @@ function transformResolveToConfig(webpackConfig, customConfig) {
         extensions.push('.ts');
     }
     if (customConfig.frame === 'react') {
-        alias['prop-types'] = require.resolve('prop-types');
-    }
-    if (customConfig.frame === 'react' && customConfig.typescript) {
-        extensions.push('.tsx');
         alias['react-dom'] = require.resolve('@hot-loader/react-dom');
+        if (customConfig.typescript) {
+            extensions.push('.tsx');
+        }
     }
     if (customConfig.frame === 'vue') {
         alias['vue$'] = require.resolve('vue/dist/vue.esm.js');
