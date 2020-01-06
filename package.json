@@ -1,6 +1,6 @@
 {
   "name": "hao-base",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "main": "./dist/index.js",
   "repository": "https://github.com/wonderfulMan/hao-base.git",
   "author": "wonderfulMan <1259243840@qq.com>",
@@ -85,8 +85,6 @@
     "postcss-url": "^8.0.0",
     "progress-bar-webpack-plugin": "^1.12.1",
     "purgecss-webpack-plugin": "^1.6.0",
-    "react": "^16.11.0",
-    "react-hot-loader": "^4.12.15",
     "sass-loader": "^8.0.0",
     "sass-resources-loader": "^2.0.1",
     "shelljs": "^0.8.3",
