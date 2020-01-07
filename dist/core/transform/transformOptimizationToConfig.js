@@ -72,7 +72,7 @@ function transformOptimizationToConfig(webpackConfig, customConfig) {
                 },
                 react: {
                     test: function (module) {
-                        return /react|redux|react-router|react-dom|react-redux|scheduler/.test(module.context);
+                        return /react|react-is|redux|react-router|react-dom|react-redux|scheduler/.test(module.context);
                     },
                     minChunks: 1,
                     chunks: "all",

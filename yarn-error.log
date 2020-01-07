@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/hao/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js add @types/address -S
+  /Users/hao/.nvm/versions/node/v8.12.0/bin/node /usr/local/Cellar/yarn/1.13.0/libexec/bin/yarn.js publish
 
 PATH: 
   /Users/hao/.cargo/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin:/Users/hao/flutterDev/flutter/bin:/Users/hao/golib/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin:/Users/hao/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/hao/.cargo/bin:/Users/hao/flutterDev/flutter/bin:/Users/hao/golib/bin:/Users/hao/.nvm/versions/node/v8.12.0/bin
@@ -14,22 +14,22 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2faddress: Not found
-      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:66255:18)
-      at Request.self.callback (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:129397:22)
+  Error: canceled
+      at Interface.<anonymous> (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:125657:13)
+      at emitNone (events.js:106:13)
+      at Interface.emit (events.js:208:7)
+      at Interface._ttyWrite (readline.js:774:16)
+      at ReadStream.onkeypress (readline.js:158:10)
       at emitTwo (events.js:126:13)
-      at Request.emit (events.js:214:7)
-      at Request.<anonymous> (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:130369:10)
-      at emitOne (events.js:116:13)
-      at Request.emit (events.js:211:7)
-      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.13.0/libexec/lib/cli.js:130291:12)
-      at Object.onceWrapper (events.js:313:30)
-      at emitNone (events.js:111:20)
+      at ReadStream.emit (events.js:214:7)
+      at emitKeys (internal/readline.js:420:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1010:36)
 
 npm manifest: 
   {
     "name": "hao-base",
-    "version": "1.4.0",
+    "version": "1.5.6",
     "main": "./dist/index.js",
     "repository": "https://github.com/wonderfulMan/hao-base.git",
     "author": "wonderfulMan <1259243840@qq.com>",
@@ -114,8 +114,8 @@ npm manifest:
       "postcss-url": "^8.0.0",
       "progress-bar-webpack-plugin": "^1.12.1",
       "purgecss-webpack-plugin": "^1.6.0",
-      "react": "^16.11.0",
-      "react-hot-loader": "^4.12.15",
+      "react": "^16.12.0",
+      "react-hot-loader": "^4.12.18",
       "sass-loader": "^8.0.0",
       "sass-resources-loader": "^2.0.1",
       "shelljs": "^0.8.3",
@@ -8770,10 +8770,10 @@ Lockfile:
       shallowequal "^1.1.0"
       source-map "^0.7.3"
   
-  react-hot-loader@^4.12.15:
-    version "4.12.15"
-    resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.15.tgz#6bf3984e52edbdf02ea8952777f53da1b3c68c95"
-    integrity sha512-sgkN6g+tgPE6xZzD0Ysqll7KUFYJbMX0DrczT5OxD6S7hZlSnmqSC3ceudwCkiDd65ZTtm+Ayk4Y9k5xxCvpOw==
+  react-hot-loader@^4.12.18:
+    version "4.12.18"
+    resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.18.tgz#a9029e34af2690d76208f9a35189d73c2dfea6a7"
+    integrity sha512-qYD0Qi9lIbg9jLyfmodfqvAQqCBsoPKxAhca8Nxvy2/2pO5Q9r2kM28jN0bbbSnhwK8dJ7FjsfVtXKOxMW+bqw==
     dependencies:
       fast-levenshtein "^2.0.6"
       global "^4.3.0"
@@ -8794,10 +8794,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
     integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
   
-  react@^16.11.0:
-    version "16.11.0"
-    resolved "https://registry.yarnpkg.com/react/-/react-16.11.0.tgz#d294545fe62299ccee83363599bf904e4a07fdbb"
-    integrity sha512-M5Y8yITaLmU0ynd0r1Yvfq98Rmll6q8AxaEe88c8e7LxO8fZ2cNgmFt0aGAS9wzf1Ao32NKXtCl+/tVVtkxq6g==
+  react@^16.12.0:
+    version "16.12.0"
+    resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
+    integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
     dependencies:
       loose-envify "^1.1.0"
       object-assign "^4.1.1"

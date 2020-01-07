@@ -16,3 +16,5 @@ var transformResolveToConfig_1 = require("./transformResolveToConfig");
 exports.transformResolveToConfig = transformResolveToConfig_1.transformResolveToConfig;
 var transformExtensionsToConfig_1 = require("./transformExtensionsToConfig");
 exports.transformExtensionsToConfig = transformExtensionsToConfig_1.transformExtensionsToConfig;
+var transformDevTools_1 = require("./transformDevTools");
+exports.transformDevTools = transformDevTools_1.transformDevTools;

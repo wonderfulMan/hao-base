@@ -29,7 +29,7 @@ function autoGetHost() {
 }
 function server(webpackConfig, customConfig) {
     var host = autoGetHost();
-    var devServerConfig = __assign({ host: host, port: 8080, open: true, historyApiFallback: true, overlay: {
+    var devServerConfig = __assign({ host: host, port: customConfig.devServer.port || 8080, open: true, historyApiFallback: true, overlay: {
             warnings: true,
             errors: true
         }, compress: true, clientLogLevel: 'none', watchContentBase: true, hotOnly: true, hot: webpackConfig.mode === 'development', quiet: true, contentBase: path_1.default.BUIL_DIR_PATH }, customConfig.devServer);

@@ -27,6 +27,7 @@ function transformResolveToConfig(webpackConfig, customConfig) {
     }
     if (customConfig.frame === 'react') {
         alias['react-dom'] = require.resolve('@hot-loader/react-dom');
+        alias['react-is'] = require.resolve('react-is');
         if (customConfig.typescript) {
             extensions.push('.tsx');
         }

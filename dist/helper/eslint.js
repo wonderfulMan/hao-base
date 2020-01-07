@@ -92,6 +92,7 @@ function getRules(customConfig) {
         ];
     }
     rules["react/jsx-filename-extension"] = ["warn", { extensions: extensions }];
+    rules["import/extensions"] = ["warn", { extensions: extensions }];
     rules["import/no-extraneous-dependencies"] = [
         "error",
         {

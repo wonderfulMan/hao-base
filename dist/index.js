@@ -43,7 +43,12 @@ function parseConfig(config) {
         var errorMessage;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4, check_1.checkOptions(config)];
+                case 0:
+                    if (!config) {
+                        config = {};
+                        config.workDir = 'src';
+                    }
+                    return [4, check_1.checkOptions(config)];
                 case 1:
                     errorMessage = _a.sent();
                     if (errorMessage) {

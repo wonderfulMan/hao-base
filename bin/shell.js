@@ -2,7 +2,7 @@
 const fs = require('fs')
 const parseConfig = require('../dist/index.js').default
 try {
-  const file = `${process.cwd()}/haoBase.js`
+  const file = `${process.cwd()}/hao.config.js`
   fs.accessSync(file)
   parseConfig(require(file))
 } catch(e) {
