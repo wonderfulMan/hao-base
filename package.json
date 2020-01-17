@@ -1,6 +1,6 @@
 {
   "name": "hao-base",
-  "version": "1.6.0",
+  "version": "1.6.9",
   "main": "./dist/index.js",
   "repository": "https://github.com/wonderfulMan/hao-base.git",
   "author": "wonderfulMan <1259243840@qq.com>",
