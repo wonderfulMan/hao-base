@@ -108,6 +108,6 @@
     "webpack-dashboard": "^3.2.0",
     "webpack-deep-scope-plugin": "^1.6.2",
     "webpack-dev-server": "^3.8.2",
-    "yarn": "^1.19.1"
+    "yarn": "^1.22.0"
   }
 }
