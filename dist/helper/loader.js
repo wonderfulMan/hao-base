@@ -76,7 +76,7 @@ function getStyleLoaders(webpackConfig, customConfig, isModules, styleType, post
             mode: 'local',
             localIdentName: 'purify-[name]-[local]-[hash:base64:5]',
             context: path_1.default.WORK_DIR_PATH(),
-            hashPrefix: 'hash'
+            hashPrefix: 'hash',
         };
         options.localsConvention = 'camelCase';
     }
